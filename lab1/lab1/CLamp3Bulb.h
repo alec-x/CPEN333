@@ -9,6 +9,7 @@ class CLamp3Bulb {
 
 public:
 	CLamp3Bulb(int w1, int w2, int w3);
+	CLamp3Bulb(int w1);
 	CLamp3Bulb(const CLamp3Bulb &LampToCopy);
 	~CLamp3Bulb();
 

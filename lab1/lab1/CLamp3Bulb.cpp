@@ -14,6 +14,14 @@ CLamp3Bulb::CLamp3Bulb(int w1, int w2, int w3) {
 	std::cout << "CLamp3Bulb constructor being called..." << std::endl;
 }
 
+CLamp3Bulb::CLamp3Bulb(int w1) {
+	bulbArray[0] = new CBulb(w1);
+	bulbArray[1] = new CBulb(w1);
+	bulbArray[2] = new CBulb(w1);
+	mainSwitch = new CSwitch();
+	std::cout << "CLamp3Bulb single integer constructor being called..." << std::endl;
+}
+
 CLamp3Bulb::CLamp3Bulb(const CLamp3Bulb &LampToCopy) {
 	bulbArray[0] = new CBulb(LampToCopy.bulbArray[0]->getpower());
 	bulbArray[1] = new CBulb(LampToCopy.bulbArray[1]->getpower());
