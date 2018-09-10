@@ -9,6 +9,10 @@ CSwitch::CSwitch() {
 	std::cout << "CSwitch default constructor being called..." << std::endl;
 }
 
+CSwitch::CSwitch(int initState) {
+	state = initState;
+ }
+
 CSwitch::~CSwitch() {
 	std::cout << "CSwitch destructor being called..." << std::endl;
 }

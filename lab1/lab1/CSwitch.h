@@ -6,6 +6,7 @@ class CSwitch {
 
 	public:
 		CSwitch();
+		CSwitch(int initState);
 		~CSwitch();
 
 		void turnon();

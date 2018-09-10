@@ -14,6 +14,18 @@ CLamp3Bulb::CLamp3Bulb(int w1, int w2, int w3) {
 	std::cout << "CLamp3Bulb constructor being called..." << std::endl;
 }
 
+CLamp3Bulb::CLamp3Bulb(const CLamp3Bulb &LampToCopy) {
+	bulbArray[0] = new CBulb(LampToCopy.bulbArray[0]->getpower());
+	bulbArray[1] = new CBulb(LampToCopy.bulbArray[1]->getpower());
+	bulbArray[2] = new CBulb(LampToCopy.bulbArray[2]->getpower());
+	mainSwitch = new CSwitch(LampToCopy.mainSwitch->getstate());
+	if (mainSwitch->getstate())
+	{
+		this->LampOn();
+	}
+	std::cout << "CLamp3Bulb copy constructor being called..." << std::endl;
+}
+
 CLamp3Bulb::~CLamp3Bulb() {
 	std::cout << "CLamp3Bulb destructor being called..." << std::endl;
 	delete bulbArray[0];
