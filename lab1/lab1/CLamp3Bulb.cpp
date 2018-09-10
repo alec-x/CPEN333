@@ -7,9 +7,7 @@
 
 CLamp3Bulb::CLamp3Bulb(int w1, int w2, int w3) {
 	std::cout << "CLamp3Bulb constructor being called..." << std::endl;
-	bulb1 = CBulb(w1);
-	bulb2 = CBulb(w2);
-	bulb3 = CBulb(w3);
+	CBulb bulbArray[3] = { CBulb(w1), CBulb(w2), CBulb(w3) };
 	mainSwitch = CSwitch();
 }
 
