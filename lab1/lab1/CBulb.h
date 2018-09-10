@@ -7,8 +7,8 @@ class CBulb {
 
 	public:
 		CBulb();
-		~CBulb();
 		CBulb(int initialWatts);
+		~CBulb();
 		void print();
 		void setwatts(int newWatts);
 		int getstate();
