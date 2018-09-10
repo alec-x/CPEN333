@@ -10,6 +10,7 @@ class CSwitch {
 
 		void turnon();
 		void turnoff();
+		int getstate();
 		void print();
 
 };

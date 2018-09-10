@@ -21,6 +21,11 @@ void CSwitch::turnoff() {
 	state = 0;
 }
 
+//required to complete exercise 3 although not specified to be created in lab
+int CSwitch::getstate() {
+	return state;
+}
+
 void CSwitch::print() {
 	if (state == 1) {
 		std::cout << "on" << std::endl;
