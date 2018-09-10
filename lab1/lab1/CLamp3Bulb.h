@@ -4,8 +4,8 @@
 #include "CBulb.h"
 
 class CLamp3Bulb {
-	CBulb bulbArray[3];
-	CSwitch mainSwitch;
+	CBulb *bulbArray[3];
+	CSwitch *mainSwitch;
 
 public:
 	CLamp3Bulb(int w1, int w2, int w3);
@@ -16,7 +16,10 @@ public:
 	int GetState();
 	void Print();
 	int GetPower();
+	CBulb * exchange(CBulb * newBulb, int bulbNumber);
 
 };
 
 #endif 
+
+
