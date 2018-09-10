@@ -152,11 +152,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CBulb.h" />
+    <ClInclude Include="CLamp3Bulb.h" />
     <ClInclude Include="CSwitch.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBulb.cpp" />
+    <ClCompile Include="CLamp3Bulb.cpp" />
     <ClCompile Include="CSwitch.cpp" />
     <ClCompile Include="lab1.cpp" />
     <ClCompile Include="pch.cpp">

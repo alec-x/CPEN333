@@ -24,6 +24,9 @@
     <ClInclude Include="CSwitch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CLamp3Bulb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -36,6 +39,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CSwitch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLamp3Bulb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
