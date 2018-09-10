@@ -1,9 +1,5 @@
 #ifndef   __CBulb__
 #define   __CBulb__
-#include <iostream>
-#include <stdio.h>
-#include <string>
-
 
 class CBulb {
 	int state;

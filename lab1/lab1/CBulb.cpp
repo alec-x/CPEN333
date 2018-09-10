@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "CBulb.h"
+#include <iostream>
+#include <stdio.h>
+#include <string>
 
 CBulb::CBulb() {
 	state = 0;
