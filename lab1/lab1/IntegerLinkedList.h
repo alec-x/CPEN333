@@ -1,6 +1,6 @@
 #ifndef   __IntegerLinkedList__
 #define   __IntegerLinkedList__
-#include "IntegerLinkedList.h"
+#include "Node.h"
 
 class List
 {
@@ -17,16 +17,6 @@ class List
 
 };
 
-class Node 
-{
-	public:
-		Node();
-		~Node();
-		int* dataPtr;
-		Node* next;
-		int data;
-
-};
 
 
 #endif
