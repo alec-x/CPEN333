@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <iostream>
 
-// Node Implementation
+// Node Implementation.
 template <class T>
 class Node
 {
