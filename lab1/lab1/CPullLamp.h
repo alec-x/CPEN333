@@ -1,3 +1,7 @@
+// Completed by:
+// Alex von Schulmann	- 13975140
+// Alec Xu				- 38108130
+
 #ifndef   __CPullLamp__
 #define   __CPullLamp__
 #include "CLamp3Bulb.h"

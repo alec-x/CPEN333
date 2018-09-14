@@ -1,3 +1,7 @@
+// Completed by:
+// Alex von Schulmann	- 13975140
+// Alec Xu				- 38108130
+
 #ifndef   __TemplateLinkedList__
 #define   __TemplateLinkedList__
 #include <stdio.h>
@@ -11,7 +15,6 @@ class Node
 		Node();
 		Node(T value);
 		~Node();
-		T* dataPtr;
 		Node* next;
 		T data;
 };
@@ -20,7 +23,6 @@ template <class T>
 Node<T>::Node()
 {
 	data = NULL;
-	dataPtr = &data;
 	next = NULL;
 }
 
@@ -28,7 +30,6 @@ template <class T>
 Node<T>::Node(T value)
 {
 	data = value;
-	dataPtr = &data;
 	next = NULL;
 }
 

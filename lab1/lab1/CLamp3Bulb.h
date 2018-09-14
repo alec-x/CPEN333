@@ -1,3 +1,7 @@
+// Completed by:
+// Alex von Schulmann	- 13975140
+// Alec Xu				- 38108130
+
 #ifndef   __CLamp3Bulb__
 #define   __CLamp3Bulb__
 #include "CSwitch.h"

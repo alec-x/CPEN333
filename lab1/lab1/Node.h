@@ -1,3 +1,7 @@
+// Completed by:
+// Alex von Schulmann	- 13975140
+// Alec Xu				- 38108130
+
 #ifndef   __Node__
 #define   __Node__
 
@@ -7,7 +11,6 @@ public:
 	Node();
 	Node(int value);
 	~Node();
-	int* dataPtr;
 	Node* next;
 	int data;
 
