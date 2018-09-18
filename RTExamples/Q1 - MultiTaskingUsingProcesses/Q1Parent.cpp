@@ -1,9 +1,11 @@
-#include 	<stdio.h>
-#include 	"C:\Users\alexv\Documents\Source\Repos\CPEN333\RTExamples\rt.h"			// change pathlist to this header file according to where it is stored
+#include <stdio.h>
+#include "C:\Users\alexv\Documents\Source\Repos\CPEN333\RTExamples\rt.h"			// change pathlist to this header file according to where it is stored
 #include <string>
 
-
-int 	main()
+// === === ==  == ===
+//  =  ==  = == = ===
+//  =  === =    = =
+int _TEMP_main()
 {
 	printf("Creating Child Processes.....\n") ;
 	 

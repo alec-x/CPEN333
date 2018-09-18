@@ -127,8 +127,9 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Q1Parent.cpp" />
+    <ClCompile Include="PartB.cpp" />
     <ClCompile Include="..\rt.cpp" />
+    <ClCompile Include="Q1Parent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\rt.h" />
