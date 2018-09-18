@@ -3,7 +3,7 @@
 #include <string>
 
 
-int main()
+int tempmain()
 {
 	// CREATE STRINGS FOR EXECUTABLE LOCATIONS
 	string repo = "C:\\Repos\\CPEN333\\RTExamples\\";

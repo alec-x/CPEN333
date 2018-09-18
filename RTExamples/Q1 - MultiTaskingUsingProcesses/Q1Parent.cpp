@@ -5,7 +5,7 @@
 // === === ==  == ===
 //  =  ==  = == = ===
 //  =  === =    = =
-int tempmain()
+int main()
 {
 	printf("Creating Child Processes.....\n") ;
 	 
@@ -47,7 +47,13 @@ int tempmain()
 			PARENT_WINDOW,						// process has its own window					
 			ACTIVE
 	);
-			
+		
+	CProcess p5(repo + "Q1 - MultiTaskingUsingProcesses\\Release\\Q1Child5.exe Our TA is Awesome",	// pathlist to child program executable	plus some arguments		
+		NORMAL_PRIORITY_CLASS,			// priority
+		OWN_WINDOW,						// process has its own window					
+		ACTIVE
+	);
+	
 	printf("Child Processes Activated.....\n") ;
 
 	printf("Waiting For Child1 to Terminate.....\n") ;
@@ -66,7 +72,9 @@ int tempmain()
 	p4.Resume();
 
 	printf("Waiting For Child4 to Terminate.....\n");
-	p4.WaitForProcess();					
+	p4.WaitForProcess();
 
+	printf("Waiting For Child5 to Terminate.....\n");
+	p5.WaitForProcess();
   	return 0 ;
 }
