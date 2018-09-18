@@ -1,13 +1,16 @@
 #include <stdio.h>
-#include "C:\Users\alexv\Documents\Source\Repos\CPEN333\RTExamples\rt.h"			// change pathlist to this header file according to where it is stored
+#include "C:\Repos\CPEN333\RTExamples\rt.h"			// change pathlist to this header file according to where it is stored
 #include <string>
 
 
 int main()
 {
 	// CREATE STRINGS FOR EXECUTABLE LOCATIONS
-	string repo = "C:\\Users\\alexv\\Documents\\Source\\Repos\\CPEN333\\RTExamples\\";
-	string Name[] = { repo + "Q1 - MultiTaskingUsingProcesses\\Q1Child1\\debug\\Q1Child1.exe", repo + "Q1 - MultiTaskingUsingProcesses\\Q1Child2\\debug\\Q1Child2.exe" , repo + "Q1 - MultiTaskingUsingProcesses\\Q1Child3\\debug\\Q1Child3.exe" , repo + "Q1 - MultiTaskingUsingProcesses\\Release\\Q1Child4.exe" };
+	string repo = "C:\\Repos\\CPEN333\\RTExamples\\";
+	string Name[] = { repo + "Q1 - MultiTaskingUsingProcesses\\Q1Child1\\debug\\Q1Child1.exe", 
+					  repo + "Q1 - MultiTaskingUsingProcesses\\Q1Child2\\debug\\Q1Child2.exe", 
+					  repo + "Q1 - MultiTaskingUsingProcesses\\Q1Child3\\debug\\Q1Child3.exe fred 1.2",
+					  repo + "Q1 - MultiTaskingUsingProcesses\\Release\\Q1Child4.exe" };
 
 	// =========================================== CREATE 1st CHILD =====================================================
 	// CREATE STARTUPINFO STRUCTURE

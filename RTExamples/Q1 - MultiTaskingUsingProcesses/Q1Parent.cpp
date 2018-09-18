@@ -1,11 +1,11 @@
 #include <stdio.h>
-#include "C:\Users\alexv\Documents\Source\Repos\CPEN333\RTExamples\rt.h"			// change pathlist to this header file according to where it is stored
+#include "C:\Repos\CPEN333\RTExamples\rt.h"			// change pathlist to this header file according to where it is stored
 #include <string>
 
 // === === ==  == ===
 //  =  ==  = == = ===
 //  =  === =    = =
-int _TEMP_main()
+int tempmain()
 {
 	printf("Creating Child Processes.....\n") ;
 	 
@@ -21,7 +21,7 @@ int _TEMP_main()
 //	4)	The initial processing state of the process, Allowable values are
 //		ACTIVE or SUSPENDED. Default is ACTIVE if not specifie
 
-	string repo = "C:\\Users\\alexv\\Documents\\Source\\Repos\\CPEN333\\RTExamples\\";
+	string repo = "C:\\Repos\\CPEN333\\RTExamples\\";
 
 	CProcess p1(repo + "Q1 - MultiTaskingUsingProcesses\\Q1Child1\\debug\\Q1Child1.exe",	// pathlist to child program executable				
 			NORMAL_PRIORITY_CLASS,			// priority
