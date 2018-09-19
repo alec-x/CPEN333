@@ -5,7 +5,7 @@
 // === === ==  == ===
 //  =  ==  = == = ===
 //  =  === =    = =
-int main()
+int temp2main()
 {
 	printf("Creating Child Processes.....\n") ;
 	 
