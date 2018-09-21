@@ -152,9 +152,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\rt.h" />
+    <ClInclude Include="Car.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\rt.cpp" />
+    <ClCompile Include="Car.cpp" />
     <ClCompile Include="lab2a.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
