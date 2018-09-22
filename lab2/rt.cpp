@@ -1786,7 +1786,7 @@ void flush(istream &is)		// can be used to flush an input stream, useful for rem
 {
 	is.clear() ;
 	streambuf  *ptr = is.rdbuf() ;		// get pointer to stream buffer
-	int avail = ptr->in_avail() ;			// get number of chars waiting to be read
+	int avail = (int)(ptr->in_avail()) ;			// get number of chars waiting to be read
 	is.ignore(avail) ;						// ignore this many characters
 	is.clear() ;
 }

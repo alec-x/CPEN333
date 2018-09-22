@@ -8,17 +8,39 @@ Car::Car(int arg)
 
 Car::Car()
 {
+	data = NULL;
 }
 
 Car::~Car()
 {
+
 }
 
 int Car::main(void)
 {
-	for (int i = 0; i < 1000; i++) 
-	{
-		printf("Hello, I am car %d!\n", data);
+
+	while (running) {
+		printf("Car %d: Speed %d\n", data, speed);
 	}
+
 	return 0;
+}
+
+void Car::Accelerate() {
+	speed += accelRate;
+}
+
+void Car::Cruise() {
+	if (speed > decelRate)
+	{
+		speed -= decelRate;
+	}
+}
+
+void Car::Stop() {
+	running = false;
+}
+
+int Car::getSpeed() {
+	return speed;
 }

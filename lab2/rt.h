@@ -185,7 +185,7 @@ public:
 private:
 	void Exit(UINT ExitCode) const ;		// called by process to terminate itself
 	inline BOOL TerminateProcess(UINT ExitStatus = 0) { return ::TerminateProcess(GetProcessHandle(), ExitStatus) ; }
-} ;
+};
 
 	
 // Example use of CProcess
