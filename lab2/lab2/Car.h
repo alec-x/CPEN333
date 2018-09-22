@@ -1,6 +1,8 @@
 #pragma once
 #include "../rt.h"
 #include <iostream>
+#include <cstdlib>
+
 
 class Car: public ActiveClass
 {
@@ -20,6 +22,6 @@ class Car: public ActiveClass
 		int speed = 0;
 		int accelRate = 7; // (m/s^2)
 		int decelRate = 1; // (m/s^2)
-		bool running = true;
+		int running = 1;
 };
 
