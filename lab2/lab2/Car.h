@@ -20,8 +20,8 @@ class Car: public ActiveClass
 	private:
 		int main(void);
 		int speed = 0;
-		int accelRate = 7; // (m/s^2)
-		int decelRate = 1; // (m/s^2)
+		int accelRate = 3; 
+		int decelRate = 1;
 		int running = 1;
 };
 

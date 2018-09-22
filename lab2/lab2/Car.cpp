@@ -3,15 +3,14 @@
 
 UINT __stdcall speedoThreadInit(void *args)	// A thread function 
 {
-	int* speed = (int*)args;
+	int** argArray = (int**)args;
 	
-	for (size_t i = 0; i < 10; i++)
+	while (**(argArray + 2))
 	{
-		printf("Child: %d\n", *speed);
+		printf("Car #%d speed: %d\n", 1 + **argArray, **(argArray + 1));
 		Sleep(2000);
 	}
-
-
+		
 	return 0;
 }
 
@@ -32,7 +31,8 @@ Car::~Car()
 
 int Car::main(void)
 {
-	CThread* speedoThread = new CThread(speedoThreadInit, ACTIVE, &speed);
+	int *argArray[] = { &data, &speed, &running };
+	CThread* speedoThread = new CThread(speedoThreadInit, ACTIVE, &argArray);
 
 	speedoThread->WaitForThread();
 	delete speedoThread;
