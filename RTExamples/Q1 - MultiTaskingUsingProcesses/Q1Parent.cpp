@@ -5,7 +5,9 @@
 // === === ==  == ===
 //  =  ==  = == = ===
 //  =  === =    = =
-int temp2main()
+// Author: Alec Xu 38108130
+// Author: Alex von Schulmann 13975140
+int main()
 {
 	printf("Creating Child Processes.....\n") ;
 	 

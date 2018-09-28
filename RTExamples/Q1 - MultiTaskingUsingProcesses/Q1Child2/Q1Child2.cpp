@@ -1,6 +1,7 @@
 #include 	<stdio.h>
 #include "..\..\rt.h"
-
+// Author: Alec Xu 38108130
+// Author: Alex von Schulmann 13975140
 int main()
 {
 	int i ;

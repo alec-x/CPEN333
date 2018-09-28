@@ -2,8 +2,9 @@
 #include "C:\Repos\CPEN333\RTExamples\rt.h"			// change pathlist to this header file according to where it is stored
 #include <string>
 
-
-int main()
+// Author: Alec Xu 38108130
+// Author: Alex von Schulmann 13975140
+int tempmain()
 {
 	// CREATE STRINGS FOR EXECUTABLE LOCATIONS
 	string repo = "C:\\Repos\\CPEN333\\RTExamples\\";
