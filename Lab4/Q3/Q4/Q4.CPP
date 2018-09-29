@@ -13,12 +13,12 @@
 //	simplicity, we have recreated the same template in each process
 //
   
-struct 	mydatapooldata 	{	// start of structure template
-		int floor ;			// floor corresponding to lifts current position
-		int direction ;		// direction of travel of lift
-		int floors[10] ;	// an array representing the floors and whether requests are set 
-} ;							// end of structure template
-
+struct 	    mydatapooldata {		// start of structure template
+	char nameA[32];
+	char nameB[32];
+	int age[2];
+	int birthYear[2];
+};
 
 int   main()
 {
@@ -32,7 +32,7 @@ int   main()
 
 
 	printf("Child attempting to create/use the datapool.....\n") ;
-	CDataPool 		dp("Car1", sizeof(struct mydatapooldata)) ;
+	CDataPool 		dp("OurInfo", sizeof(struct mydatapooldata)) ;
 	
 // In order to access the data pool, we need a pointer to its location in memory. This is what
 // the LinkDataPool() primitive does as we saw in the parent program
@@ -45,12 +45,9 @@ int   main()
 
 // print out the data in the datapool that was stored there by the parent
 
-	printf("Child Read value for Floor = %d\n", MyDataPool->floor) ;
-	printf("Child Read value for Direction = %d\n", MyDataPool->direction) ; 
-
-	printf("Child Read values for floor array = ") ;
-	for(i=0; i < 10; i ++)
-		printf("%d ", MyDataPool->floors[ i ]) ;
+	printf("Child Read value for second name = %s\n", MyDataPool->nameB);
+	printf("Child Read value for second age = %d\n", MyDataPool->age[1]);
+	printf("Child Read value for second birth year = %d\n", MyDataPool->birthYear[1]);
 
 // The CDatapool object 'dp' created at the start of the program will now be destroyed
 // and provided there are no other processes using the same named datapool, then that datapool

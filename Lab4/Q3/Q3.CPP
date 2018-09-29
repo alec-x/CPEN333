@@ -7,10 +7,11 @@
 //  which includes three variables, two simple integers and an array of 10 integers
   
 struct 	    mydatapooldata 	{		// start of structure template
-		int floor ;				// floor corresponding to lifts current position
-		int direction ;			// direction of travel of lift
-		int floors[10] ;			// an array representing the floors and whether requests are set 
-} ;							// end of structure template
+		char nameA[32];				// === CAN'T USE STRINGS BECAUSE NEED TO KNOW SIZE ===
+		char nameB[32];
+		int age[2] ;			
+		int birthYear[2] ;
+} ;							
 
 int 	main()
 {
@@ -25,7 +26,7 @@ int 	main()
 //	to hold the data in the structure template above, we make it that big
 
 	printf("Parent attempting to create/use the datapool.....\n") ;
-	CDataPool 		dp("Car1", sizeof(struct mydatapooldata)) ;
+	CDataPool 		dp("OurInfo", sizeof(struct mydatapooldata)) ;
 	
 // In order to access the data pool, we need a pointer to its location in memory. This is what
 // the LinkDataPool() primitive does. It gives us back a pointer to the data pool referred to by 'dp'.
@@ -44,15 +45,20 @@ int 	main()
 
 // Now that we have the pointer to the datapool, we can put data into it
 
-	printf("Parent Writing value '10' to floor variable.....\n") ;
-	MyDataPool->floor = 10 ;		// store 55 into the variable 'floor' in the datapool
+	printf("Parent Writing value 'Alex' to nameA and 'Alec' to nameB.....\n") ;
+	strcpy(MyDataPool->nameA, "Alex");
+	strcpy(MyDataPool->nameB, "Alec");
 
-	printf("Parent Writing value '1' to direction variable.....\n") ;
-	MyDataPool->direction = 1 ;		// store 1 into the variable 'direction' in the datapool
+	printf("Parent Writing value '22' to age[0] and '23(?)' to age[1].....\n") ;
+	MyDataPool->age[0] = 22;
+	MyDataPool->age[1] = 23;
 
-	printf("Parent Writing value '0 1 2 3 4 5 6 7 8 9' to floors array.....\n") ;
-	for(int i = 0; i < 10; i ++)
-		MyDataPool->floors[ i ] = i ;	
+	printf("Parent Writing value '1996' to birthYear[0] and '1995' to birthYear[1].....\n") ;
+	MyDataPool->birthYear[0] = 1996;
+	MyDataPool->birthYear[1] = 1995;
+
+	printf("Enter to create child process.....\n");
+
 
 //	Now that we have created the data pool and have stored data in it, it is safe to create
 //	a child process that can access the data
@@ -65,7 +71,14 @@ int 	main()
 		ACTIVE							// process is active immediately
 	) ;
 
-	p1.WaitForProcess() ;		// wait for the child process to Terminate
+	CProcess p2("C:\\Users\\alexv\\Documents\\Source\\Repos\\CPEN333\\Lab4\\Q3\\debug\\Q4b.exe",	// pathlist to child program executable
+		NORMAL_PRIORITY_CLASS,			// priority
+		OWN_WINDOW,						// process has its own window
+		ACTIVE							// process is active immediately
+	);
+
+	p1.WaitForProcess();		// wait for the child process to Terminate
+	p2.WaitForProcess();		// wait for the child process to Terminate
 
 	return 0 ;				// CDataPool object 'dp' destroyed here
 }
