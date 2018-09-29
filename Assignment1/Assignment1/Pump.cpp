@@ -1,8 +1,9 @@
 #include "Pump.h"
 
-Pump::Pump()
+Pump::Pump(int pumpNumber)
 {
-
+	dataPoolName = "CDataPool" + to_string(pumpNumber);
+	dataPipeName = "CPipe" + to_string(pumpNumber);
 }
 
 Pump::~Pump()
@@ -12,5 +13,42 @@ Pump::~Pump()
 
 int Pump::main(void)
 {
+	// Make/find data pool with data in the struct
+	CDataPool dp(dataPoolName, sizeof(PumpDataPoolData));
+
+	// Make/find data pool with max. # of transaction
+	CTypedPipe<Transaction> transactionPipe(dataPipeName, 10);
+
+	// Make struct to link to the data
+	PumpDataPoolData *pumpData = (PumpDataPoolData *)(dp.LinkDataPool());
+
+	while (pumpData->pumpOn) {
+		while (pumpData->pumpPaused) {
+			// Wait/Sleep?
+			if (!pumpData->pumpOn) {
+				return 0;
+			}
+		}
+
+		// Take next customer from the pipeline (will wait until data is available)
+		Transaction custInfo;
+		transactionPipe.Read(&custInfo);
+
+		// Load pipeline data into the shared data pool
+		pumpData->tData = custInfo;
+		pumpData->complete = false;
+		pumpData->quantityFueled = 0;
+
+		while (pumpData->quantityFueled < pumpData->tData.gasQuantity) {
+			// =======================
+			// =======================
+			// Fueling Logic goes here
+			// =======================
+			// =======================
+		}
+		pumpData->complete = true;
+		// Move on to next customer
+	}
+
 	return 0;
 }

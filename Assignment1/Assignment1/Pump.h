@@ -1,5 +1,7 @@
 #pragma once
 #include "../rt.h"
+#include <string.h>
+#include "Transaction.h"
 
 /* 
 	Should be able to:
@@ -12,13 +14,22 @@
 
 class Pump : public ActiveClass
 {
-	int data;
-
 public:
-	Pump();
+	Pump(int pumpNumber);
 	~Pump();
+
+	// === STRUCT FOR ACCESSING DATA POOL ===
+	// ANY CHANGES HERE MUST ALSO BE MADE IN GSC.CPP
+	struct PumpDataPoolData {
+		Transaction tData;			// Customer transaction data
+		int quantityFueled = 0;		// Progress in the fueling process
+		bool complete = false;
+		bool pumpOn = true;			// Kill the pump (set by the GSC)
+		bool pumpPaused = false;	// In event of low fuel (set by GSC)
+	};
+	string dataPoolName, dataPipeName;
+
 
 private:
 	int main(void);
-
 };
