@@ -20,3 +20,23 @@ Transaction::~Transaction()
 {
 
 }
+
+string Transaction::getCustomerName()
+{
+	return this->customerName;
+}
+
+string Transaction::getCustomerCreditCard()
+{
+	return this->customerCreditCard;
+}
+
+int Transaction::getGasQuantity()
+{
+	return this->gasQuantity;
+}
+
+int Transaction::getGasGrade()
+{
+	return this->gasGrade;
+}
