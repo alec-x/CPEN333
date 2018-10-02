@@ -20,11 +20,11 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{11ABAC52-C877-4BBD-A093-1629DACE859E}</ProjectGuid>
+    <ProjectGuid>{701BCEA9-7D33-47CE-9606-6E62E935CACB}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>PartB</RootNamespace>
+    <RootNamespace>PartA_2ChildB</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
-    <ProjectName>PartA_2</ProjectName>
+    <ProjectName>PartA_2ChildB</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -153,7 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\rt.cpp" />
-    <ClCompile Include="PartA_2Parent.cpp" />
+    <ClCompile Include="PartA_2ChildB.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\rt.h" />
