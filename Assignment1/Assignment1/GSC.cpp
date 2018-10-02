@@ -33,6 +33,10 @@ UINT __stdcall MonitorPumpData(void *args) // Takes in pumpNumber (same as in co
 	return 0;
 }
 
+UINT __stdcall MonitorFuelLevel(void *args) // Takes in pumpNumber (same as in const.)
+{
+	return 0;
+}
 
 int main() {
 

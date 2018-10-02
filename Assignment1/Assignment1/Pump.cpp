@@ -2,8 +2,8 @@
 
 Pump::Pump(int pumpNumber)
 {
-	dataPoolName = "CDataPool" + to_string(pumpNumber);
-	dataPipeName = "CPipe" + to_string(pumpNumber);
+	dataPoolName = "CDataPoolPump" + to_string(pumpNumber);
+	dataPipeName = "CPipePump" + to_string(pumpNumber);
 }
 
 Pump::~Pump()

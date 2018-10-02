@@ -154,10 +154,12 @@
     <ClCompile Include="..\rt.cpp" />
     <ClCompile Include="GSC.cpp" />
     <ClCompile Include="Pump.cpp" />
+    <ClCompile Include="Tank.cpp" />
     <ClCompile Include="Transaction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\rt.h" />
+    <ClInclude Include="Tank.h" />
     <ClInclude Include="Pump.h" />
     <ClInclude Include="Transaction.h" />
   </ItemGroup>
