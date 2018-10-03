@@ -27,13 +27,13 @@ UINT __stdcall MonitorPumpData(void *args) // Takes in pumpNumber (same as in co
 
 	while (pumpData[pumpNumber]->pumpOn)
 	{
-		// Write out
+		std::cout << "pump has: " << pumpData[pumpNumber]->tData.getGasQuantity() << "Gas" << std::endl;
 	}
 
 	return 0;
 }
 
-UINT __stdcall MonitorFuelLevel(void *args) // Takes in pumpNumber (same as in const.)
+UINT __stdcall MonitorFuelLevel(void *args) // Takes in tankNumber (same as in const.)
 {
 	return 0;
 }
@@ -51,12 +51,15 @@ int main() {
 
 	// Run-time display and operation
 	// ... TO DO
+	// Test code
 
 	// Wait for threads to complete
 	pump1Thread->WaitForThread();
 	pump2Thread->WaitForThread();
 	pump3Thread->WaitForThread();
 	pump4Thread->WaitForThread();
+
+	
 
 	return 0;
 }

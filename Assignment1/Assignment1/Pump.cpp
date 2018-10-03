@@ -39,7 +39,7 @@ int Pump::main(void)
 		pumpData->complete = false;
 		pumpData->quantityFueled = 0;
 
-		while (pumpData->quantityFueled < pumpData->tData.gasQuantity) {
+		while (pumpData->quantityFueled < pumpData->tData.getGasQuantity()) {
 			// =======================
 			// =======================
 			// Fueling Logic goes here
