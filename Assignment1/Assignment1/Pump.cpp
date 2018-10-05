@@ -15,7 +15,7 @@ int Pump::main(void)
 {
 	// Make/find data pool with data in the struct
 	CDataPool dp(dataPoolName, sizeof(PumpDataPoolData));
-
+	//CDataPool dp("thebestpool", sizeof(this->data));
 	// Make/find data pool with max. # of transaction
 	CTypedPipe<Transaction> transactionPipe(dataPipeName, 10);
 
@@ -35,17 +35,17 @@ int Pump::main(void)
 		transactionPipe.Read(&custInfo);
 
 		// Load pipeline data into the shared data pool
-		pumpData->tData = custInfo;
+		//pumpData->tData = custInfo;
 		pumpData->complete = false;
 		pumpData->quantityFueled = 0;
 
-		while (pumpData->quantityFueled < pumpData->tData.getGasQuantity()) {
+		//while (pumpData->quantityFueled < pumpData->tData.getGasQuantity()) {
 			// =======================
 			// =======================
 			// Fueling Logic goes here
 			// =======================
 			// =======================
-		}
+		//}
 		pumpData->complete = true;
 		// Move on to next customer
 	}

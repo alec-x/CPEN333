@@ -21,9 +21,6 @@
     <ClCompile Include="Pump.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Transaction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GSC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -38,10 +35,10 @@
     <ClInclude Include="Pump.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Transaction.h">
+    <ClInclude Include="Tank.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tank.h">
+    <ClInclude Include="PumpDataPoolData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

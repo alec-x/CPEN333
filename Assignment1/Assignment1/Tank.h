@@ -25,7 +25,4 @@ public:
 	};
 	string dataPoolName, dataPipeName;
 
-
-private:
-	int main(void);
 };
