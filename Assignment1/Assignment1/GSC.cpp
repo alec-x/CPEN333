@@ -30,7 +30,7 @@ UINT __stdcall MonitorFuelLevel(void *args) // Takes in tankNumber (same as in c
 }
 
 int main() {
-	const int numPumps = 1;
+	const int numPumps = 2;
 	Pump* pumpArray[numPumps];
 	for (int i = 0; i < numPumps; i++)
 	{
@@ -40,6 +40,7 @@ int main() {
 		pumpArray[i]->dataPoolName;
 		
 	}
+
 	CDataPool dp("CDataPoolPump0", sizeof(struct PumpDataPoolData));
 	struct PumpDataPoolData *MyDataPool = (struct PumpDataPoolData *)(dp.LinkDataPool());
 	MyDataPool->pumpOn = true;

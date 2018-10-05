@@ -21,6 +21,10 @@ int Pump::main(void)
 
 	// Make struct to link to the data
 	PumpDataPoolData *pumpData = (PumpDataPoolData *)(dp.LinkDataPool());
+	pumpData->complete = false;
+	pumpData->pumpOn = true;
+	pumpData->pumpPaused = false;
+	pumpData->quantityFueled = 0;
 
 	while (pumpData->pumpOn) {
 		while (pumpData->pumpPaused) {
@@ -31,7 +35,7 @@ int Pump::main(void)
 		}
 
 		// Take next customer from the pipeline (will wait until data is available)
-		Transaction custInfo;
+		struct Transaction custInfo;
 		transactionPipe.Read(&custInfo);
 
 		// Load pipeline data into the shared data pool
