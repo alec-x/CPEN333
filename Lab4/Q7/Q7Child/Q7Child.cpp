@@ -1,3 +1,7 @@
+// Alec Xu				- 38108130
+// Alex von Schulmann	- 13975140
+
+
 //	A Win32 C program to demonstrate the creation and use of name pipe. Error checking has 
 //	been ommitted to aid clarity
 

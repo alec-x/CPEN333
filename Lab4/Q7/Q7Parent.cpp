@@ -1,3 +1,6 @@
+// Alec Xu				- 38108130
+// Alex von Schulmann	- 13975140
+
 /*
 
 Discussion Questions:

@@ -1,3 +1,7 @@
+// Completed by:
+// Alex von Schulmann	- 13975140
+// Alec Xu				- 38108130
+
 #include "Car.h"
 #include "../rt.h"
 
