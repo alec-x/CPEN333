@@ -11,36 +11,14 @@ class MonitorVariable {
 		CMutex *theMutex;
 	public:
 		// Constructor
-		MonitorVariable(string variableName) {
-			theMutex = new CMutex("__MonitorVariableMutex__" + variableName);
-			variableDataPool = new CDataPool("__MonitorVariableDataPool__" + variableName, sizeof(struct theDataInTheVariable));
-			p = (struct theDataInTheVariable*)(variableDataPool->LinkDataPool());
-			p->value = 0;
-		}
+		MonitorVariable(string variableName);
 
 		// Destructor
-		~MonitorVariable() {
-			delete theMutex;
-			delete variableDataPool;
-		}
+		~MonitorVariable();
 
-		void write(int input) {
-			theMutex->Wait();
-			p->value = input;
-			theMutex->Signal();
-		}
+		void write(int input);
 
-		int read() {
-			int data;
-			theMutex->Wait();
-			data = p->value;
-			theMutex->Signal();
-			return data;
-		}
+		int read();
 
-		void increment() {
-			theMutex->Wait();
-			p->value = p->value + 1;
-			theMutex->Signal();
-		}
+		void increment();
 };
