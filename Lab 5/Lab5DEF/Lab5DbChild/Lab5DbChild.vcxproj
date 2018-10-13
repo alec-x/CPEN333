@@ -20,11 +20,10 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{7E99A4F6-62A0-4708-A663-42DE468B96E5}</ProjectGuid>
+    <ProjectGuid>{610FAF35-3F07-480B-9A29-208F4402AA66}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Lab5DChild</RootNamespace>
+    <RootNamespace>Lab5DbChild</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
-    <ProjectName>Lab5DaChild</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -153,7 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\rt.cpp" />
-    <ClCompile Include="Lab5DChild.cpp" />
+    <ClCompile Include="Lab5DbChild.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\rt.h" />
