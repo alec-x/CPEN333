@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lab5D", "Lab5DEF\Lab5DEF.vc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lab5DChild", "Lab5DChild\Lab5DChild.vcxproj", "{7E99A4F6-62A0-4708-A663-42DE468B96E5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lab5DChild2", "Lab5DChild2\Lab5DChild2.vcxproj", "{DE16F454-C58D-46F3-89DB-2A862440D0BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{7E99A4F6-62A0-4708-A663-42DE468B96E5}.Release|x64.Build.0 = Release|x64
 		{7E99A4F6-62A0-4708-A663-42DE468B96E5}.Release|x86.ActiveCfg = Release|Win32
 		{7E99A4F6-62A0-4708-A663-42DE468B96E5}.Release|x86.Build.0 = Release|Win32
+		{DE16F454-C58D-46F3-89DB-2A862440D0BE}.Debug|x64.ActiveCfg = Debug|x64
+		{DE16F454-C58D-46F3-89DB-2A862440D0BE}.Debug|x64.Build.0 = Debug|x64
+		{DE16F454-C58D-46F3-89DB-2A862440D0BE}.Debug|x86.ActiveCfg = Debug|Win32
+		{DE16F454-C58D-46F3-89DB-2A862440D0BE}.Debug|x86.Build.0 = Debug|Win32
+		{DE16F454-C58D-46F3-89DB-2A862440D0BE}.Release|x64.ActiveCfg = Release|x64
+		{DE16F454-C58D-46F3-89DB-2A862440D0BE}.Release|x64.Build.0 = Release|x64
+		{DE16F454-C58D-46F3-89DB-2A862440D0BE}.Release|x86.ActiveCfg = Release|Win32
+		{DE16F454-C58D-46F3-89DB-2A862440D0BE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
