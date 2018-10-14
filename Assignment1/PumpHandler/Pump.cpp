@@ -15,9 +15,9 @@ int Pump::main(void)
 {
 	// Make/find data pool with data in the struct
 	CDataPool dp(dataPoolName, sizeof(PumpDataPoolData));
-	//CDataPool dp("thebestpool", sizeof(this->data));
+
 	// Make/find data pool with max. # of transaction
-	CTypedPipe<Transaction> transactionPipe(dataPipeName, 10);
+	CTypedPipe<Transaction> transactionPipe(dataPipeName, 100);
 
 	// Make struct to link to the data
 	PumpDataPoolData *pumpData = (PumpDataPoolData *)(dp.LinkDataPool());
@@ -28,7 +28,7 @@ int Pump::main(void)
 
 	while (pumpData->pumpOn) {
 		while (pumpData->pumpPaused) {
-			// Wait/Sleep?
+			// Wait/Sleep
 			if (!pumpData->pumpOn) {
 				return 0;
 			}
