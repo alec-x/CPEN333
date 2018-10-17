@@ -5,40 +5,9 @@
 #include "../SharedConstants.h"
 
 
-// === THREAD FOR MONITORING A SINGLE PUMP ===
-UINT __stdcall MonitorPumpData(void *args) // Takes in pumpNumber (same as in const.)
-{	
-	
-	int pumpNumber = *(int *)(args) - 1; // Array indexing [1 -> 0, 2 -> 1, etc.]
-	
-	// Mutex between this and GSC
-	CRendezvous rPumps("pumpsRendezvous", NUMPUMPS + 1);
-	CSemaphore pSemaphore("pSemaphore" + to_string(pumpNumber), 0, 1);
-	CSemaphore cSemaphore("cSemaphore" + to_string(pumpNumber), 1, 1);
+UINT __stdcall MonitorPumpData(void *args);
+UINT __stdcall MonitorFuelLevel(void *args); // Monitors the Fuel Tank Monitor
 
-	string dataPoolName = "CDataPool" + to_string(pumpNumber);
-
-	// Make/find data pool with data in the struct
-	CDataPool dp(dataPoolName, sizeof(PumpStatus));
-	struct PumpStatus *pumpData = (struct PumpStatus *)(dp.LinkDataPool());
-
-	// Signal initialization complete
-	rPumps.Wait();
-
-	// On new transaction
-	while (pumpData->pumpOn) {
-		pSemaphore.Wait();
-		// Wait for okay to proceed
-		cSemaphore.Signal();
-	}
-	
-	return 0;
-}
-
-UINT __stdcall MonitorFuelLevel(void *args) // Monitors the Fuel Tank Monitor
-{
-	return 0;
-}
 
 int main() {
 
@@ -70,5 +39,36 @@ int main() {
 		delete(pumpMonitorArray[i]);
 	}
 	
+	return 0;
+}
+
+
+// === THREAD FOR MONITORING A SINGLE PUMP ===
+UINT __stdcall MonitorPumpData(void *args) // Takes in pumpNumber (same as in const.)
+{
+
+	int pumpNumber = *(int *)(args)-1; // Array indexing [1 -> 0, 2 -> 1, etc.]
+
+	// Mutex between this and GSC
+	CRendezvous rPumps("pumpsRendezvous", NUMPUMPS + 1);
+	CSemaphore pSemaphore("pSemaphore" + to_string(pumpNumber), 0, 1);
+	CSemaphore cSemaphore("cSemaphore" + to_string(pumpNumber), 1, 1);
+
+	string dataPoolName = "CDataPool" + to_string(pumpNumber);
+
+	// Make/find data pool with data in the struct
+	CDataPool dp(dataPoolName, sizeof(PumpStatus));
+	struct PumpStatus *pumpData = (struct PumpStatus *)(dp.LinkDataPool());
+
+	// Signal initialization complete
+	rPumps.Wait();
+
+	// On new transaction
+	while (pumpData->pumpOn) {
+		pSemaphore.Wait();
+		// Wait for okay to proceed
+		cSemaphore.Signal();
+	}
+
 	return 0;
 }
