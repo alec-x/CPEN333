@@ -1,7 +1,7 @@
 #pragma once
 #include "../rt.h"
 #include <string.h>
-#include "../PumpDataPoolData.h"
+#include "../PumpStatus.h"
 /* 
 	Should be able to:
 		- Communicate via Data Pool with the Gas Station Computer
@@ -15,10 +15,16 @@
 class Pump : public ActiveClass
 {
 public:
+	struct PumpStatus dataPoolStruct;
+	string dataPoolName, dataPipeName;
+
 	Pump(int pumpNumber);
 	~Pump();
-	struct PumpDataPoolData dataPoolStruct;
-	string dataPoolName, dataPipeName;
+	void updateWindow();
+	void decrementTank();
+	void signalTransaction();
+	void signalEnd();
+
 
 
 private:

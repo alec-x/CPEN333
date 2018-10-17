@@ -156,7 +156,8 @@
     <ClCompile Include="PumpHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\PumpDataPoolData.h" />
+    <ClInclude Include="..\Customer.h" />
+    <ClInclude Include="..\PumpStatus.h" />
     <ClInclude Include="..\rt.h" />
     <ClInclude Include="..\SharedConstants.h" />
     <ClInclude Include="Pump.h" />

@@ -152,10 +152,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\rt.cpp" />
+    <ClCompile Include="FuelTankMonitor.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Customer.h" />
     <ClInclude Include="..\rt.h" />
+    <ClInclude Include="FuelTankMonitor.h" />
+    <ClInclude Include="Tank.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

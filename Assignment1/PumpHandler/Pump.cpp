@@ -1,4 +1,5 @@
 #include "Pump.h"
+#include "..\Customer.h"
 
 Pump::Pump(int pumpNumber)
 {
@@ -11,16 +12,32 @@ Pump::~Pump()
 
 }
 
+void Pump::updateWindow()
+{
+}
+
+void Pump::decrementTank()
+{
+}
+
+void Pump::signalTransaction()
+{
+}
+
+void Pump::signalEnd()
+{
+}
+
 int Pump::main(void)
 {
 	// Make/find data pool with data in the struct
-	CDataPool dp(dataPoolName, sizeof(PumpDataPoolData));
+	CDataPool pumpStatusDP(dataPoolName, sizeof(PumpStatus));
 
-	// Make/find data pool with max. # of transaction
-	CTypedPipe<Transaction> transactionPipe(dataPipeName, 100);
+	// Make/find data pool with max. # of customers
+	CTypedPipe<Customer> customerPipe(dataPipeName, 10);
 
 	// Make struct to link to the data
-	PumpDataPoolData *pumpData = (PumpDataPoolData *)(dp.LinkDataPool());
+	PumpStatus *pumpData = (PumpStatus *)(pumpStatusDP.LinkDataPool());
 	pumpData->complete = false;
 	pumpData->pumpOn = true;
 	pumpData->pumpPaused = false;
@@ -35,8 +52,8 @@ int Pump::main(void)
 		}
 
 		// Take next customer from the pipeline (will wait until data is available)
-		struct Transaction custInfo;
-		transactionPipe.Read(&custInfo);
+		struct Customer custInfo;
+		customerPipe.Read(&custInfo);
 
 		// Load pipeline data into the shared data pool
 		//pumpData->tData = custInfo;

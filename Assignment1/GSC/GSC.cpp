@@ -1,7 +1,7 @@
 //#include "Pump.h"
 #include <stdio.h>
 #include "../rt.h"
-#include "../PumpDataPoolData.h"
+#include "../PumpStatus.h"
 #include "../SharedConstants.h"
 
 
@@ -19,8 +19,8 @@ UINT __stdcall MonitorPumpData(void *args) // Takes in pumpNumber (same as in co
 	string dataPoolName = "CDataPool" + to_string(pumpNumber);
 
 	// Make/find data pool with data in the struct
-	CDataPool dp(dataPoolName, sizeof(PumpDataPoolData));
-	struct PumpDataPoolData *pumpData = (struct PumpDataPoolData *)(dp.LinkDataPool());
+	CDataPool dp(dataPoolName, sizeof(PumpStatus));
+	struct PumpStatus *pumpData = (struct PumpStatus *)(dp.LinkDataPool());
 
 	// Signal initialization complete
 	rPumps.Wait();

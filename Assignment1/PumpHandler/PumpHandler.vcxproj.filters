@@ -29,13 +29,16 @@
     <ClInclude Include="..\rt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\PumpDataPoolData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\SharedConstants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Pump.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\PumpStatus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Customer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
