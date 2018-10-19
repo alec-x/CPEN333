@@ -52,17 +52,17 @@ int Pump::main(void)
 	pumpData->pumpOn = true;
 	pumpData->pumpPaused = false;
 	pumpData->quantityFueled = 0;
+
 	// Make transaction to hold
 	Transaction customerTransaction;
 
-	ArrivalSemaphore.Wait();
+	// TO DO (Add in intermediary functions)
+	ArrivalSemaphore.Signal();
 	customerPipeline.Read(&customerTransaction);
-	SwipeCardSemaphore.Signal();
-	RemoveHoseSemaphore.Signal();
-	SelectGradeSemaphore.Signal();
-	DispenseGasSemaphore.Wait();
-	ReturnHoseSemaphore.Signal();
-	LeaveSemaphore.Signal();
+	SwipeCardSemaphore.Wait();
+	RemoveHoseSemaphore.Wait();
+	SelectGradeSemaphore.Wait();
+	DispenseGasSemaphore.Signal();
 
 	while (pumpData->pumpOn) {
 		while (pumpData->pumpPaused) {
@@ -90,6 +90,10 @@ int Pump::main(void)
 		pumpData->complete = true;
 		// Move on to next customer
 	}
+
+	ReturnHoseSemaphore.Wait();
+	LeaveSemaphore.Wait();
+
 
 	return 0;
 }
