@@ -1,6 +1,7 @@
-#include "../rt.h"
-#include "../SharedConstants.h"
-
+#include "..\rt.h"
+#include "..\SharedConstants.h"
+#include "..\Customer.h"
+Customer createCustomer();
 
 int main() {
 
@@ -21,4 +22,8 @@ int main() {
 
 
 	return 0;
+}
+
+Customer createCustomer() {
+
 }

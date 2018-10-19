@@ -156,10 +156,10 @@
     <ClCompile Include="PumpHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Customer.h" />
     <ClInclude Include="..\PumpStatus.h" />
     <ClInclude Include="..\rt.h" />
     <ClInclude Include="..\SharedConstants.h" />
+    <ClInclude Include="..\Transaction.h" />
     <ClInclude Include="Pump.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

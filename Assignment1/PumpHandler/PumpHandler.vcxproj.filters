@@ -38,7 +38,7 @@
     <ClInclude Include="..\PumpStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Customer.h">
+    <ClInclude Include="..\Transaction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -29,4 +29,5 @@ public:
 
 private:
 	int main(void);
+	int pumpNum;
 };
