@@ -51,8 +51,6 @@ int Customer::main(void)
 	// ===========
 	// ===========
 
-
-
 	//Create necessary Semaphores
 	CSemaphore ArrivalSemaphore("ArrivalSemaphore" + to_string(pumpNum), 0);  //wait
 	CSemaphore SwipeCardSemaphore("SwipeCardSemaphore" + to_string(pumpNum), 0);// signal and send transaction in pipeline
@@ -73,5 +71,5 @@ int Customer::main(void)
 	ReturnHoseSemaphore.Signal();
 	LeaveSemaphore.Signal();
 	
-	return 0; //kills the object we think
+	return 0;
 }

@@ -38,63 +38,71 @@ int Pump::main(void)
 	// Make/find data pool with max. # of customers
 	CTypedPipe<Transaction> customerPipeline(dataPipeName, 1);
 
-	// Create Semaphores
-	CSemaphore ArrivalSemaphore("ArrivalSemaphore" + to_string(pumpNum), 0);  //wait
-	CSemaphore SwipeCardSemaphore("SwipeCardSemaphore" + to_string(pumpNum), 0);// signal and send transaction in pipeline
-	CSemaphore RemoveHoseSemaphore("RemoveHoseSemaphore" + to_string(pumpNum), 0);// signal
-	CSemaphore SelectGradeSemaphore("SelectGradeSemaphore" + to_string(pumpNum), 0);// signal
-	CSemaphore DispenseGasSemaphore("DispenseGasSemaphore" + to_string(pumpNum), 0);// wait
-	CSemaphore ReturnHoseSemaphore("ReturnHoseSemaphore" + to_string(pumpNum), 0);// signal
-	CSemaphore LeaveSemaphore("LeaveSemaphore" + to_string(pumpNum), 0);// signal
+	// Create Semaphores with Customer
+	CSemaphore ArrivalSemaphore("ArrivalSemaphore" + to_string(pumpNum), 0);  
+	CSemaphore SwipeCardSemaphore("SwipeCardSemaphore" + to_string(pumpNum), 0);
+	CSemaphore RemoveHoseSemaphore("RemoveHoseSemaphore" + to_string(pumpNum), 0);
+	CSemaphore SelectGradeSemaphore("SelectGradeSemaphore" + to_string(pumpNum), 0);
+	CSemaphore DispenseGasSemaphore("DispenseGasSemaphore" + to_string(pumpNum), 0);
+	CSemaphore ReturnHoseSemaphore("ReturnHoseSemaphore" + to_string(pumpNum), 0);
+	CSemaphore LeaveSemaphore("LeaveSemaphore" + to_string(pumpNum), 0);
+
+	// Create Semaphores with GSC
+	CSemaphore AllowPumping("AllowPumpingSemaphore" + to_string(pumpNum), 0);
 
 	// Make struct to link to the data
 	PumpStatus *pumpData = (PumpStatus *)(pumpStatusDP.LinkDataPool());
-	pumpData->complete = false;
-	pumpData->pumpOn = true;
-	pumpData->pumpPaused = false;
-	pumpData->quantityFueled = 0;
 
 	// Make transaction to hold
 	Transaction customerTransaction;
 
-	// TO DO (Add in intermediary functions)
-	ArrivalSemaphore.Signal();
-	customerPipeline.Read(&customerTransaction);
-	SwipeCardSemaphore.Wait();
-	RemoveHoseSemaphore.Wait();
-	SelectGradeSemaphore.Wait();
 	DispenseGasSemaphore.Signal();
 
+	// Turning off the pump will end the ActiveClass object
 	while (pumpData->pumpOn) {
-		while (pumpData->pumpPaused) {
-			// Wait/Sleep
-			if (!pumpData->pumpOn) {
-				return 0;
+
+		// Customer interaction
+		ArrivalSemaphore.Signal();
+		customerPipeline.Read(&customerTransaction); // Will wait until data is available
+		SwipeCardSemaphore.Wait();
+		RemoveHoseSemaphore.Wait();
+		SelectGradeSemaphore.Wait();
+
+		// Init data pool values
+		pumpData->complete = false;
+		pumpData->pumpOn = true;
+		pumpData->pumpPaused = false;
+		pumpData->quantityFueled = 0;
+		pumpData->fuelGrade = customerTransaction.fuelGrade;
+
+		AllowPumping.Wait(); // Wait for GSC Authorization
+
+		while (!pumpData->complete) {
+			
+			// If GSC paused pump, then wait
+			while (pumpData->pumpPaused) {
+				// Wait/Sleep
+				Sleep(1000);
+				if (!pumpData->pumpOn) {
+					return 0;
+				}
+			}
+
+			// Increment the amount fueled, decrement from tank
+
+			// TO BE IMPLEMENTED
+
+			if (pumpData->quantityFueled == customerTransaction.fuelAmount)
+			{
+				pumpData->complete = true;
 			}
 		}
 
-		// Take next customer from the pipeline (will wait until data is available)
-
-
-		// Load pipeline data into the shared data pool
-		//pumpData->tData = custInfo;
-		pumpData->complete = false;
-		pumpData->quantityFueled = 0;
-
-		//while (pumpData->quantityFueled < pumpData->tData.getGasQuantity()) {
-			// =======================
-			// =======================
-			// Fueling Logic goes here
-			// =======================
-			// =======================
-		//}
-		pumpData->complete = true;
-		// Move on to next customer
+		// Customer interaction
+		DispenseGasSemaphore.Signal(); // Signal end of dispensal
+		ReturnHoseSemaphore.Wait();
+		LeaveSemaphore.Wait();
 	}
-
-	ReturnHoseSemaphore.Wait();
-	LeaveSemaphore.Wait();
-
 
 	return 0;
 }
