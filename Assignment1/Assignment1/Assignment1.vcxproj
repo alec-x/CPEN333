@@ -157,6 +157,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\SharedConstants.h" />
     <ClInclude Include="..\Transaction.h" />
     <ClInclude Include="..\rt.h" />
     <ClInclude Include="Customer.h" />

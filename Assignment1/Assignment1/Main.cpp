@@ -1,9 +1,29 @@
 #include "..\rt.h"
 #include "..\SharedConstants.h"
-#include "..\Customer.h"
-Customer createCustomer();
+#include "..\Assignment1\Customer.h"
 
 int main() {
+
+	// ===========
+	// ===========
+	// === TESTING
+
+	Customer testDude[10];
+
+	for (int i = 0; i < 10; i++)
+	{
+		srand(i + 1);
+		testDude[i].Resume();
+		testDude[i].WaitForThread();
+	}
+
+	return 0;
+
+	// === TESTING
+	// ===========
+	// ===========
+
+
 
 	CRendezvous rv("processRendezvous", NUMPROCESS);
 
@@ -15,15 +35,6 @@ int main() {
 	rv.Wait();
 
 	// Create customers, world-events, etc.
-	// Customers should wait/signal the pipeline before writing to it
-
-	string dataPipeName = "CPipePump0";
-
-
 
 	return 0;
-}
-
-Customer createCustomer() {
-
 }

@@ -3,8 +3,8 @@
 
 struct Transaction {
 	time_t timeOfPurchase;
-	long long ccNumber;
 	char customerName[32];
 	int  fuelAmount;
+	char ccNumber[17];
 	int  fuelGrade;
 };

@@ -6,7 +6,26 @@
 
 Customer::Customer()
 {
-//generate random ccnumber some time
+	// Randomly generate credit card
+	for (int i = 0; i < sizeof(customerTransaction.ccNumber); i++)
+	{
+		customerTransaction.ccNumber[i] = '0' + (rand() % 10);
+	}
+	customerTransaction.ccNumber[17] = '\0';
+
+	// Randomly generate name from array
+	string name = firstNameArray[rand() % (sizeof(firstNameArray)/sizeof(firstNameArray[0]))] + " " + lastNameArray[rand() % (sizeof(lastNameArray)/sizeof(lastNameArray[0]))];
+	strcpy_s(customerTransaction.customerName, sizeof(customerTransaction.customerName), name.c_str());
+
+	// Randomly generate fuelGrade
+	customerTransaction.fuelGrade = fuelGradeArray[rand() % (sizeof(fuelGradeArray)/sizeof(fuelGradeArray[0]))];
+
+	// Randomly generate fuelAmount
+	customerTransaction.fuelAmount = (rand() % 50) + 20; // From 20 - 70 L
+
+	// Randomly generate pumpNum
+	pumpNum = rand() % 4;
+
 }
 
 
@@ -16,8 +35,23 @@ Customer::~Customer()
 
 int Customer::main(void)
 {
-	//Initialize pipeline
-	int pumpNum = rand() % 4;
+	// ===========
+	// ===========
+	// === TESTING
+
+	printf("Credit Card No.: %s\n", customerTransaction.ccNumber);
+	printf("Name: %s\n", customerTransaction.customerName);
+	printf("Fuel Grade: %d\n", customerTransaction.fuelGrade);
+	printf("Fuel Amount: %d\n", customerTransaction.fuelAmount);
+	printf("Pump No.: %d\n\n", pumpNum);
+
+	return 0;
+
+	// === TESTING
+	// ===========
+	// ===========
+
+
 
 	//Create necessary Semaphores
 	CSemaphore ArrivalSemaphore("ArrivalSemaphore" + to_string(pumpNum), 0);  //wait
