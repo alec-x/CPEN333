@@ -8,16 +8,14 @@ int main() {
 	// ===========
 	// === TESTING
 
-	Customer testDude[10];
+	Customer customerArray[10];
 
 	for (int i = 0; i < 10; i++)
 	{
 		srand(i + 1);
-		testDude[i].Resume();
-		testDude[i].WaitForThread();
+		customerArray[i].Resume();
+		customerArray[i].WaitForThread();
 	}
-
-	return 0;
 
 	// === TESTING
 	// ===========
@@ -29,7 +27,11 @@ int main() {
 
 	// Init the other processes
 
-	//CProcess...
+	CProcess pumpHandlerProcess("..\\Debug\\PumpHandler.exe",	// pathlist to child program executable				
+		NORMAL_PRIORITY_CLASS,			// priority
+		OWN_WINDOW,						// process has its own window					
+		ACTIVE							// process is active immediately
+	);
 
 	// Wait for other process initialization
 	rv.Wait();

@@ -30,6 +30,8 @@ void Pump::signalEnd()
 {
 }
 
+
+
 int Pump::main(void)
 {
 	// Make/find data pool with data in the struct
@@ -71,33 +73,13 @@ int Pump::main(void)
 		// Init data pool values
 		pumpData->complete = false;
 		pumpData->pumpOn = true;
-		pumpData->pumpPaused = false;
+		pumpData->pumpPaused = true;
 		pumpData->quantityFueled = 0;
 		pumpData->fuelGrade = customerTransaction.fuelGrade;
 
 		AllowPumping.Wait(); // Wait for GSC Authorization
 
-		while (!pumpData->complete) {
-			
-			// If GSC paused pump, then wait
-			while (pumpData->pumpPaused) {
-				// Wait/Sleep
-				Sleep(1000);
-				if (!pumpData->pumpOn) {
-					return 0;
-				}
-			}
-
-			// Increment the amount fueled, decrement from tank
-
-			// TO BE IMPLEMENTED
-
-			if (pumpData->quantityFueled == customerTransaction.fuelAmount)
-			{
-				pumpData->complete = true;
-			}
-		}
-
+		
 		// Customer interaction
 		DispenseGasSemaphore.Signal(); // Signal end of dispensal
 		ReturnHoseSemaphore.Wait();

@@ -1,4 +1,5 @@
 #pragma once
+#include "..\Transaction.h"
 struct PumpStatus{
 	int quantityFueled;			// Progress in the fueling process
 	int fuelGrade;

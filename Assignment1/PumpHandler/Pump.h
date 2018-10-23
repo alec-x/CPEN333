@@ -2,6 +2,7 @@
 #include "../rt.h"
 #include <string.h>
 #include "../PumpStatus.h"
+
 /* 
 	Should be able to:
 		- Communicate via Data Pool with the Gas Station Computer
@@ -24,8 +25,6 @@ public:
 	void decrementTank();
 	void signalTransaction();
 	void signalEnd();
-
-
 
 private:
 	int main(void);
