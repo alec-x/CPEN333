@@ -103,10 +103,11 @@ class Customer : public ActiveClass {
 			"Gilbert",
 			"Leonard"
 		};
-		int fuelGradeArray[3] = {
+		int fuelGradeArray[4] = {
 			87,
 			89,
-			91
+			91,
+			93
 		};
 
 	private:

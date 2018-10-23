@@ -151,10 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Assignment1\FuelTankMonitor.cpp" />
     <ClCompile Include="..\rt.cpp" />
     <ClCompile Include="GSC.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Assignment1\FuelTankMonitor.h" />
     <ClInclude Include="..\PumpStatus.h" />
     <ClInclude Include="..\rt.h" />
     <ClInclude Include="..\SharedConstants.h" />
