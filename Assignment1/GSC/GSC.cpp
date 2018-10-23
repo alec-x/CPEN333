@@ -8,7 +8,7 @@
 
 UINT __stdcall MonitorPumpData(void *args);
 UINT __stdcall MonitorFuelLevel(void *args); // Monitors the Fuel Tank Monitor
-
+UINT __stdcall updatePumpGSC(void *args);
 
 int main() {
 
@@ -43,6 +43,47 @@ int main() {
 	return 0;
 }
 
+UINT __stdcall updatePumpGSC(void *args)
+{
+	const int pumpDisplayWidth = 30;
+	const int heightOffset = 4;
+	CSemaphore writeSemaphore("PumpHandlerGSC", 1);
+	string dataPoolName = *(string *)(args);
+	CDataPool pumpStatusDP(dataPoolName, sizeof(PumpStatus));
+	PumpStatus *pumpData = (PumpStatus *)(pumpStatusDP.LinkDataPool());
+	int offset = dataPoolName.back() - '0';
+
+	while (!pumpData->complete) {
+		writeSemaphore.Wait();
+		MOVE_CURSOR(0, 0);
+		TEXT_COLOUR(12, 0);
+		printf("%s", banner.c_str());
+		MOVE_CURSOR(2 * pumpDisplayWidth - 3, 1);
+		printf("Pumps");
+		MOVE_CURSOR(0, 2);
+		printf("%s", banner.c_str());
+		TEXT_COLOUR(15, 0);
+		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset);             // move cursor to cords [x,y]
+		printf("%s Information:", dataPoolName.c_str());
+		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 1);             // move cursor to cords [x,y]
+		printf("Pump On:           %s", pumpData->pumpOn ? "true" : "false");
+		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 2);             // move cursor to cords [x,y]
+		printf("Pump Status:       %s", pumpData->pumpOn ? "Paused" : "Active");
+		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 3);             // move cursor to cords [x,y]
+		printf("Fuel Grade:        %02d", pumpData->fuelGrade);
+		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 4);             // move cursor to cords [x,y]
+		printf("Quantity Fueled:   %02d", pumpData->quantityFueled);
+		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 5);             // move cursor to cords [x,y]
+		printf("Cost:              %02d", pumpData->quantityFueled);
+		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 6);             // move cursor to cords [x,y]
+		//printf("\n");
+		fflush(stdout);		      	// force output to be written to screen
+
+		writeSemaphore.Signal();
+		SLEEP(200);
+	}
+	return 0;
+}
 
 // === THREAD FOR MONITORING A SINGLE PUMP ===
 UINT __stdcall MonitorPumpData(void *args) // Takes in pumpNumber (same as in const.)
