@@ -13,7 +13,6 @@ UINT __stdcall updatePumpGSC(void *args);
 int main() {
 
 	CRendezvous rv("processRendezvous", NUMPROCESS);
-	CRendezvous rPumps("pumpsRendezvous", NUMPUMPS + 1);
 
 	// Make Threads to handle the CDataPools that communicate with the pumps
 	CThread* pumpMonitorArray[NUMPUMPS];
@@ -26,7 +25,6 @@ int main() {
 	// ... TO DO
 
 	// Wait for pump initialization, then signal complete.
-	rPumps.Wait();
 	rv.Wait();
 
 	// Run-time display and operation

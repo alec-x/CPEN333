@@ -8,14 +8,9 @@ int main() {
 	// ===========
 	// === TESTING
 
-	Customer customerArray[10];
+	Customer customerArray[100];
 
-	for (int i = 0; i < 10; i++)
-	{
-		srand(i + 1);
-		customerArray[i].Resume();
-		customerArray[i].WaitForThread();
-	}
+
 
 	// === TESTING
 	// ===========
@@ -37,6 +32,16 @@ int main() {
 	rv.Wait();
 
 	// Create customers, world-events, etc.
+	for (int i = 0; i < 100; i++)
+	{
+		srand(i + 1);
+		customerArray[i].Resume();
+	}
 
+	for (int i = 0; i < 100; i++)
+	{
+		customerArray[i].WaitForThread();
+	}
+	
 	return 0;
 }

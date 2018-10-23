@@ -2,6 +2,8 @@
 #include "../rt.h"
 #include <string.h>
 #include "../PumpStatus.h"
+#include "..\Transaction.h"
+#include "..\SharedConstants.h"
 
 /* 
 	Should be able to:

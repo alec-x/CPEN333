@@ -1,5 +1,4 @@
 #include "Pump.h"
-#include "..\Transaction.h"
 // Alex Von Schulmann 13975140
 // Alec Xu 38108130
 Pump::Pump(int pumpNumber)
@@ -35,6 +34,7 @@ void Pump::signalEnd()
 int Pump::main(void)
 {
 	// Make/find data pool with data in the struct
+	CRendezvous rPump("pumpRendezvous", NUMPUMPS + 1);
 	CDataPool pumpStatusDP(dataPoolName, sizeof(PumpStatus));
 
 	// Make/find data pool with max. # of customers
@@ -57,8 +57,13 @@ int Pump::main(void)
 
 	// Make transaction to hold
 	Transaction customerTransaction;
+	rPump.Wait();
 
-	DispenseGasSemaphore.Signal();
+	pumpData->complete = false;
+	pumpData->pumpOn = true;
+	pumpData->pumpPaused = true;
+	pumpData->quantityFueled = 0;
+	pumpData->fuelGrade = 87;
 
 	// Turning off the pump will end the ActiveClass object
 	while (pumpData->pumpOn) {
@@ -75,9 +80,10 @@ int Pump::main(void)
 		pumpData->pumpOn = true;
 		pumpData->pumpPaused = true;
 		pumpData->quantityFueled = 0;
-		pumpData->fuelGrade = customerTransaction.fuelGrade;
+		pumpData->transactionData = customerTransaction;
+		pumpData->fuelGrade = pumpData->transactionData.fuelGrade;
 
-		AllowPumping.Wait(); // Wait for GSC Authorization
+		//AllowPumping.Wait(); // Wait for GSC Authorization
 
 		
 		// Customer interaction

@@ -38,15 +38,15 @@ int Customer::main(void)
 	// ===========
 	// ===========
 	// === TESTING
-
+	/*
 	printf("Credit Card No.: %s\n", customerTransaction.ccNumber);
 	printf("Name: %s\n", customerTransaction.customerName);
 	printf("Fuel Grade: %d\n", customerTransaction.fuelGrade);
 	printf("Fuel Amount: %d\n", customerTransaction.fuelAmount);
 	printf("Pump No.: %d\n\n", pumpNum);
-
+	
 	return 0;
-
+	*/
 	// === TESTING
 	// ===========
 	// ===========
@@ -64,6 +64,7 @@ int Customer::main(void)
 	CTypedPipe<Transaction> customerPipeline("CustomerPipeline" + to_string(pumpNum), 1);
 	ArrivalSemaphore.Wait();
 	customerPipeline.Write(&customerTransaction);
+	SLEEP(2000);
 	SwipeCardSemaphore.Signal();
 	RemoveHoseSemaphore.Signal();
 	SelectGradeSemaphore.Signal();
@@ -71,5 +72,7 @@ int Customer::main(void)
 	ReturnHoseSemaphore.Signal();
 	LeaveSemaphore.Signal();
 	
+	printf("%s done\n", customerTransaction.customerName);
+
 	return 0;
 }
