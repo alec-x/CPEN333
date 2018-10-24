@@ -34,7 +34,7 @@ void Pump::signalEnd()
 int Pump::main(void)
 {
 	// Make/find data pool with data in the struct
-	CRendezvous rPump("pumpRendezvous", NUMPUMPS + 1);
+	CRendezvous rPump("pumpRendezvous", NUMPUMPS + 2);
 	CDataPool pumpStatusDP(dataPoolName, sizeof(PumpStatus));
 
 	// Make/find data pool with max. # of customers
@@ -90,6 +90,9 @@ int Pump::main(void)
 		DispenseGasSemaphore.Signal(); // Signal end of dispensal
 		ReturnHoseSemaphore.Wait();
 		LeaveSemaphore.Wait();
+		Sleep(500);
+		pumpData->complete = true;
+
 	}
 
 	return 0;

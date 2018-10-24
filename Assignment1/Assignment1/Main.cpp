@@ -7,8 +7,8 @@ int main() {
 	// ===========
 	// ===========
 	// === TESTING
-
-	Customer customerArray[100];
+	const int numCustomers = 100;
+	Customer customerArray[numCustomers];
 
 
 
@@ -38,14 +38,14 @@ int main() {
 	rv.Wait();
 
 	// Create customers, world-events, etc.
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < numCustomers; i++)
 	{
 		srand(i + 1);
 		customerArray[i].Resume();
 		Sleep(rand() % 3000);
 	}
 
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < numCustomers; i++)
 	{
 		customerArray[i].WaitForThread();
 	}

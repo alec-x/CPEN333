@@ -15,26 +15,24 @@ const int heightOffset = 4;
 int main() {
 
 	CRendezvous rv("processRendezvous", NUMPROCESS);
+	CRendezvous rPump("pumpRendezvous", NUMPUMPS + 2);
+	
+	// Wait until everything initialized
+	rPump.Wait();
+	rv.Wait();
 
 	// Make Threads to handle the CDataPools that communicate with the pumps
+	CThread* tankMonitor = new CThread(updateTankGSC, ACTIVE);
+
 	CThread* pumpMonitors[NUMPUMPS];
 	string name_arg[NUMPUMPS];
 	for (int i = 0; i < NUMPUMPS; i++) {
 		name_arg[i] = "CDataPoolPump" + to_string(i);
 		pumpMonitors[i] = new CThread(updatePumpGSC, ACTIVE, &name_arg[i]);
 	}
-
-	CThread* tankMonitor = new CThread(updateTankGSC, ACTIVE);
-	
-	// Wait until everything initialized
-	rv.Wait();
-
-	
 	
 	
 	// HANDLE UI INTERACTION
-
-
 
 
 	// Wait for threads to finish and clean up
@@ -67,30 +65,48 @@ UINT __stdcall updatePumpGSC(void *args)
 					"# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # "
 					"# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #";
 
-	while (!pumpData->complete) {
+	while (pumpData->pumpOn) {
+		while (!pumpData->complete) {
+			writeSemaphore.Wait();
+			MOVE_CURSOR(0, 0);
+			TEXT_COLOUR(14, 0);
+			printf("%s", banner.c_str());
+			MOVE_CURSOR(2 * pumpDisplayWidth - 10, 1);
+			printf("GSC");
+			MOVE_CURSOR(0, 2);
+			printf("%s", banner.c_str());
+			TEXT_COLOUR(15, 0);
+			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset);             // move cursor to cords [x,y]
+			printf("%s Information:", dataPoolName.c_str());
+			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 1);             // move cursor to cords [x,y]
+			printf("Name:            %-32s", pumpData->transactionData.customerName);
+			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 2);             // move cursor to cords [x,y]
+			printf("Credit Card #:   %-32s", pumpData->transactionData.ccNumber);
+			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 3);             // move cursor to cords [x,y]
+			printf("Fuel Grade:      %02d", pumpData->fuelGrade);
+			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 4);             // move cursor to cords [x,y]
+			printf("Quantity Fueled: %02d", pumpData->quantityFueled);
+			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 5);             // move cursor to cords [x,y]
+			printf("Cost:            %02d", pumpData->quantityFueled);
+			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 6);             // move cursor to cords [x,y]
+			//printf("\n");
+			fflush(stdout);		      	// force output to be written to screen
+			writeSemaphore.Signal();
+			SLEEP(200);
+		}
+
 		writeSemaphore.Wait();
-		MOVE_CURSOR(0, 0);
-		TEXT_COLOUR(14, 0);
-		printf("%s", banner.c_str());
-		MOVE_CURSOR(2 * pumpDisplayWidth - 10, 1);
-		printf("GSC");
-		MOVE_CURSOR(0, 2);
-		printf("%s", banner.c_str());
-		TEXT_COLOUR(15, 0);
-		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset);             // move cursor to cords [x,y]
-		printf("%s Information:", dataPoolName.c_str());
 		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 1);             // move cursor to cords [x,y]
-		printf("Name:            %-32s", pumpData->transactionData.customerName);
+		printf("Name:            %-32s", " ");
 		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 2);             // move cursor to cords [x,y]
-		printf("Credit Card #:   %-32s", pumpData->transactionData.ccNumber);
+		printf("Credit Card #:   %-32s", " ");
 		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 3);             // move cursor to cords [x,y]
-		printf("Fuel Grade:      %02d", pumpData->fuelGrade);
+		printf("Fuel Grade:      %02d", 0);
 		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 4);             // move cursor to cords [x,y]
-		printf("Quantity Fueled: %02d", pumpData->quantityFueled);
+		printf("Quantity Fueled: %02d", 0);
 		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 5);             // move cursor to cords [x,y]
-		printf("Cost:            %02d", pumpData->quantityFueled);
+		printf("Cost:            %02d", 0);
 		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 6);             // move cursor to cords [x,y]
-		//printf("\n");
 		fflush(stdout);		      	// force output to be written to screen
 		writeSemaphore.Signal();
 		SLEEP(200);
@@ -105,9 +121,10 @@ UINT __stdcall updateTankGSC(void *args)
 {
 	CSemaphore writeSemaphore("GSCWrite", 1);
 	while (1) {
+		SLEEP(200);
 		writeSemaphore.Wait();
 		MOVE_CURSOR(0, heightOffset + 7);
-		printf("%f %f %f %f\n", fuelTank.queryTank(87), fuelTank.queryTank(89), fuelTank.queryTank(91), fuelTank.queryTank(93));
+		printf("%.1f %.1f %.1f %.1f\n", fuelTank.queryTank(87), fuelTank.queryTank(89), fuelTank.queryTank(91), fuelTank.queryTank(93));
 		writeSemaphore.Signal();
 	}
 	return 0;
