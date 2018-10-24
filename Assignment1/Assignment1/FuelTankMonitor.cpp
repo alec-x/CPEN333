@@ -23,6 +23,11 @@ void FuelTankMonitor::addFuel(int grade, double amount)
 	theMutex->Signal();
 }
 
+double FuelTankMonitor::queryTank(int grade) {
+	int index = gradeMap.at(grade);
+	return Tanks[index];
+}
+
 FuelTankMonitor::FuelTankMonitor()
 {
 	theMutex = new CMutex("MyBankAccount");

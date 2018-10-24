@@ -4,9 +4,13 @@
 #include "..\PumpStatus.h"
 #include "..\SharedConstants.h"
 #include "..\Transaction.h"
+#include "..\Assignment1\FuelTankMonitor.h"
 
 UINT __stdcall updateTankGSC(void *args); 
 UINT __stdcall updatePumpGSC(void *args);
+FuelTankMonitor fuelTank;
+const int pumpDisplayWidth = 50;
+const int heightOffset = 4;
 
 int main() {
 
@@ -48,8 +52,6 @@ int main() {
 
 UINT __stdcall updatePumpGSC(void *args)
 {
-	const int pumpDisplayWidth = 50;
-	const int heightOffset = 4;
 	CSemaphore writeSemaphore("GSCWrite", 1);
 	string dataPoolName = *(string *)(args);
 	CDataPool pumpStatusDP(dataPoolName, sizeof(PumpStatus));
@@ -101,9 +103,12 @@ UINT __stdcall updatePumpGSC(void *args)
 
 UINT __stdcall updateTankGSC(void *args)
 {
-	printf("Tank Test");
+	CSemaphore writeSemaphore("GSCWrite", 1);
 	while (1) {
-
+		writeSemaphore.Wait();
+		MOVE_CURSOR(0, heightOffset + 7);
+		printf("%f %f %f %f\n", fuelTank.queryTank(87), fuelTank.queryTank(89), fuelTank.queryTank(91), fuelTank.queryTank(93));
+		writeSemaphore.Signal();
 	}
 	return 0;
 }

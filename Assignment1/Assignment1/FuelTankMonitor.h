@@ -19,6 +19,7 @@ private:
 public:
 	BOOL decrementTank(int grade);
 	void addFuel(int grade, double amount);
+	double queryTank(int grade);
 	FuelTankMonitor();
 	~FuelTankMonitor();
 };
