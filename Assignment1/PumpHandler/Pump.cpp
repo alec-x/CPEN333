@@ -83,7 +83,7 @@ int Pump::main(void)
 		pumpData->transactionData = customerTransaction;
 		pumpData->fuelGrade = pumpData->transactionData.fuelGrade;
 
-		//AllowPumping.Wait(); // Wait for GSC Authorization
+		AllowPumping.Wait(); // Wait for GSC Authorization
 
 		
 		// Customer interaction

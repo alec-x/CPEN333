@@ -16,6 +16,12 @@ int main() {
 
 	CRendezvous rv("processRendezvous", NUMPROCESS);
 	CRendezvous rPump("pumpRendezvous", NUMPUMPS + 2);
+
+	CSemaphore* AllowPumping[NUMPUMPS];
+	for (int i = 0; i < NUMPUMPS; i++)
+	{
+		AllowPumping[i] = new CSemaphore("AllowPumpingSemaphore" + to_string(i), 0);
+	}
 	
 	// Wait until everything initialized
 	rPump.Wait();
@@ -31,15 +37,21 @@ int main() {
 		pumpMonitors[i] = new CThread(updatePumpGSC, ACTIVE, &name_arg[i]);
 	}
 	
-	
-	// HANDLE UI INTERACTION
-
+	// Main (forever)
+	while (1) {
+		for (int i = 0; i < NUMPUMPS; i++)
+		{
+			AllowPumping[i]->Signal();
+			Sleep(10000);
+		}
+	}
 
 	// Wait for threads to finish and clean up
 	for (int i = 0; i < NUMPUMPS; i++)
 	{
 		pumpMonitors[i]->WaitForThread();
 		delete(pumpMonitors[i]);
+		delete(AllowPumping[i]);
 	}
 
 	tankMonitor->WaitForThread();
