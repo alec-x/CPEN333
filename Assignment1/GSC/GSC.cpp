@@ -38,12 +38,27 @@ int main() {
 	}
 	
 	// Main (forever)
+	int userInput;
 	while (1) {
-		for (int i = 0; i < NUMPUMPS; i++)
+		cin >> userInput;
+		switch (userInput)
 		{
-			AllowPumping[i]->Signal();
-			Sleep(10000);
+		case 0:
+			AllowPumping[0]->Signal();
+			break;
+		case 1:
+			AllowPumping[1]->Signal();
+			break;
+		case 2:
+			AllowPumping[2]->Signal();
+			break;
+		case 3:
+			AllowPumping[3]->Signal();
+			break;
+		default:
+			break;
 		}
+
 	}
 
 	// Wait for threads to finish and clean up
@@ -103,6 +118,7 @@ UINT __stdcall updatePumpGSC(void *args)
 			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 6);             // move cursor to cords [x,y]
 			//printf("\n");
 			fflush(stdout);		      	// force output to be written to screen
+			MOVE_CURSOR(0, heightOffset + 7);
 			writeSemaphore.Signal();
 			SLEEP(200);
 		}
@@ -120,6 +136,7 @@ UINT __stdcall updatePumpGSC(void *args)
 		printf("Cost:            %02d", 0);
 		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 6);             // move cursor to cords [x,y]
 		fflush(stdout);		      	// force output to be written to screen
+		MOVE_CURSOR(0, heightOffset + 7);
 		writeSemaphore.Signal();
 		SLEEP(200);
 	}
@@ -137,6 +154,7 @@ UINT __stdcall updateTankGSC(void *args)
 		writeSemaphore.Wait();
 		MOVE_CURSOR(0, heightOffset + 7);
 		printf("%.1f %.1f %.1f %.1f\n", fuelTank.queryTank(87), fuelTank.queryTank(89), fuelTank.queryTank(91), fuelTank.queryTank(93));
+		MOVE_CURSOR(0, heightOffset + 7);
 		writeSemaphore.Signal();
 	}
 	return 0;
