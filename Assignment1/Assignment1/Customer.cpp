@@ -35,22 +35,6 @@ Customer::~Customer()
 
 int Customer::main(void)
 {
-	// ===========
-	// ===========
-	// === TESTING
-	/*
-	printf("Credit Card No.: %s\n", customerTransaction.ccNumber);
-	printf("Name: %s\n", customerTransaction.customerName);
-	printf("Fuel Grade: %d\n", customerTransaction.fuelGrade);
-	printf("Fuel Amount: %d\n", customerTransaction.fuelAmount);
-	printf("Pump No.: %d\n\n", pumpNum);
-	
-	return 0;
-	*/
-	// === TESTING
-	// ===========
-	// ===========
-
 	//Create necessary Semaphores
 	CSemaphore ArrivalSemaphore("ArrivalSemaphore" + to_string(pumpNum), 0);  //wait
 	CSemaphore SwipeCardSemaphore("SwipeCardSemaphore" + to_string(pumpNum), 0);// signal and send transaction in pipeline
@@ -59,7 +43,6 @@ int Customer::main(void)
 	CSemaphore DispenseGasSemaphore("DispenseGasSemaphore" + to_string(pumpNum), 0);// wait
 	CSemaphore ReturnHoseSemaphore("ReturnHoseSemaphore" + to_string(pumpNum), 0);// signal
 	CSemaphore LeaveSemaphore("LeaveSemaphore" + to_string(pumpNum), 0);// signal
-	//if weird errors, check semaphore intializations
 	
 	CTypedPipe<Transaction> customerPipeline("CustomerPipeline" + to_string(pumpNum), 1);
 	ArrivalSemaphore.Wait();
@@ -71,8 +54,6 @@ int Customer::main(void)
 	DispenseGasSemaphore.Wait();
 	ReturnHoseSemaphore.Signal();
 	LeaveSemaphore.Signal();
-	
-	printf("%s done\n", customerTransaction.customerName);
 
 	return 0;
 }

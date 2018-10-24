@@ -28,6 +28,12 @@ int main() {
 		ACTIVE							// process is active immediately
 	);
 
+	CProcess GSCProcess("..\\Debug\\GSC.exe",	// pathlist to child program executable				
+		NORMAL_PRIORITY_CLASS,			// priority
+		OWN_WINDOW,						// process has its own window					
+		ACTIVE							// process is active immediately
+	);
+
 	// Wait for other process initialization
 	rv.Wait();
 
@@ -36,6 +42,7 @@ int main() {
 	{
 		srand(i + 1);
 		customerArray[i].Resume();
+		Sleep(rand() % 3000);
 	}
 
 	for (int i = 0; i < 100; i++)

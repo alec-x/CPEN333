@@ -63,7 +63,7 @@ int Pump::main(void)
 	pumpData->pumpOn = true;
 	pumpData->pumpPaused = true;
 	pumpData->quantityFueled = 0;
-	pumpData->fuelGrade = 87;
+	pumpData->fuelGrade = 0;
 
 	// Turning off the pump will end the ActiveClass object
 	while (pumpData->pumpOn) {
