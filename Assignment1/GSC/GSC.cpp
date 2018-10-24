@@ -17,6 +17,7 @@ int main() {
 	CRendezvous rv("processRendezvous", NUMPROCESS);
 	CRendezvous rPump("pumpRendezvous", NUMPUMPS + 2);
 
+	CSemaphore writeSemaphore("GSCWrite", 1);
 	CSemaphore* AllowPumping[NUMPUMPS];
 	for (int i = 0; i < NUMPUMPS; i++)
 	{
@@ -38,26 +39,43 @@ int main() {
 	}
 	
 	// Main (forever)
-	int userInput;
+	string userInput;
 	while (1) {
+		int i, index;
+		int j = 0;
+
 		cin >> userInput;
-		switch (userInput)
+		if (userInput == "ap")
 		{
-		case 0:
-			AllowPumping[0]->Signal();
-			break;
-		case 1:
-			AllowPumping[1]->Signal();
-			break;
-		case 2:
-			AllowPumping[2]->Signal();
-			break;
-		case 3:
-			AllowPumping[3]->Signal();
-			break;
-		default:
-			break;
+			cin >> i;
+			if ((0 <= i) && (i <= NUMPUMPS - 1)) {
+				AllowPumping[i]->Signal();
+			}
 		}
+		else if (userInput == "ft") {
+			cin >> i;
+			try
+			{
+				index = fuelTank.gradeMap.at(i);
+			}
+			catch (const std::exception&)
+			{
+				continue;
+			}
+			cin >> j;
+			fuelTank.addFuel(index, (double)j);
+		}
+		
+		writeSemaphore.Wait();
+		MOVE_CURSOR(0, heightOffset + 8);
+		printf("                           ");
+		MOVE_CURSOR(0, heightOffset + 9);
+		printf("                           ");
+		MOVE_CURSOR(0, heightOffset + 9);
+		printf("%s %d %d", userInput.c_str(), i, j);
+		MOVE_CURSOR(0, heightOffset + 8);
+		fflush(stdout);
+		writeSemaphore.Signal();
 
 	}
 
@@ -118,7 +136,7 @@ UINT __stdcall updatePumpGSC(void *args)
 			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 6);             // move cursor to cords [x,y]
 			//printf("\n");
 			fflush(stdout);		      	// force output to be written to screen
-			MOVE_CURSOR(0, heightOffset + 7);
+			MOVE_CURSOR(0, heightOffset + 8);
 			writeSemaphore.Signal();
 			SLEEP(200);
 		}
@@ -136,7 +154,7 @@ UINT __stdcall updatePumpGSC(void *args)
 		printf("Cost:            %02d", 0);
 		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 6);             // move cursor to cords [x,y]
 		fflush(stdout);		      	// force output to be written to screen
-		MOVE_CURSOR(0, heightOffset + 7);
+		MOVE_CURSOR(0, heightOffset + 8);
 		writeSemaphore.Signal();
 		SLEEP(200);
 	}
@@ -154,7 +172,7 @@ UINT __stdcall updateTankGSC(void *args)
 		writeSemaphore.Wait();
 		MOVE_CURSOR(0, heightOffset + 7);
 		printf("%.1f %.1f %.1f %.1f\n", fuelTank.queryTank(87), fuelTank.queryTank(89), fuelTank.queryTank(91), fuelTank.queryTank(93));
-		MOVE_CURSOR(0, heightOffset + 7);
+		MOVE_CURSOR(0, heightOffset + 8);
 		writeSemaphore.Signal();
 	}
 	return 0;
