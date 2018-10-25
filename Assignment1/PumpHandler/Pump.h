@@ -5,6 +5,7 @@
 #include "..\Transaction.h"
 #include "..\SharedConstants.h"
 
+
 /* 
 	Should be able to:
 		- Communicate via Data Pool with the Gas Station Computer
@@ -23,10 +24,6 @@ public:
 
 	Pump(int pumpNumber);
 	~Pump();
-	void updateWindow();
-	void decrementTank();
-	void signalTransaction();
-	void signalEnd();
 
 private:
 	int main(void);

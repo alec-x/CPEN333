@@ -1,4 +1,6 @@
 #include "Pump.h"
+
+
 // Alex Von Schulmann 13975140
 // Alec Xu 38108130
 Pump::Pump(int pumpNumber)
@@ -11,22 +13,6 @@ Pump::Pump(int pumpNumber)
 Pump::~Pump()
 {
 
-}
-
-void Pump::updateWindow()
-{
-}
-
-void Pump::decrementTank()
-{
-}
-
-void Pump::signalTransaction()
-{
-}
-
-void Pump::signalEnd()
-{
 }
 
 
@@ -84,8 +70,11 @@ int Pump::main(void)
 		pumpData->fuelGrade = pumpData->transactionData.fuelGrade;
 
 		AllowPumping.Wait(); // Wait for GSC Authorization
+		pumpData->transactionData.timeOfPurchase = time(NULL);
+		while (pumpData->quantityFueled < pumpData->transactionData.fuelAmount) {
 
-		
+			Sleep(1000);
+		}
 		// Customer interaction
 		DispenseGasSemaphore.Signal(); // Signal end of dispensal
 		ReturnHoseSemaphore.Wait();

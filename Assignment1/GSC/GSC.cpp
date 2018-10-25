@@ -1,4 +1,5 @@
 //#include "Pump.h"
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include "..\rt.h"
 #include "..\PumpStatus.h"
@@ -50,6 +51,7 @@ int main() {
 			cin >> i;
 			if ((0 <= i) && (i <= NUMPUMPS - 1)) {
 				AllowPumping[i]->Signal();
+				
 			}
 		}
 		else if (userInput == "ft") {
@@ -100,7 +102,7 @@ UINT __stdcall updatePumpGSC(void *args)
 	CDataPool pumpStatusDP(dataPoolName, sizeof(PumpStatus));
 	PumpStatus *pumpData = (PumpStatus *)(pumpStatusDP.LinkDataPool());
 	int offset = dataPoolName.back() - '0';
-
+	char tempTime[32];
 	printf("%d", pumpData->complete);
 	printf("%d", pumpData->fuelGrade);
 	printf("%d", pumpData->pumpOn);
@@ -134,13 +136,21 @@ UINT __stdcall updatePumpGSC(void *args)
 			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 5);             // move cursor to cords [x,y]
 			printf("Cost:            %02d", pumpData->quantityFueled);
 			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 6);             // move cursor to cords [x,y]
-			//printf("\n");
+			strftime(tempTime, sizeof(tempTime), "%H:%M:%S", \
+				localtime(&pumpData->transactionData.timeOfPurchase));
+			printf("Time:            %s", tempTime);
 			fflush(stdout);		      	// force output to be written to screen
 			MOVE_CURSOR(0, heightOffset + 8);
 			writeSemaphore.Signal();
 			SLEEP(200);
+
+
+
+
+
 		}
 
+		SLEEP(500);
 		writeSemaphore.Wait();
 		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 1);             // move cursor to cords [x,y]
 		printf("Name:            %-32s", " ");
@@ -151,10 +161,12 @@ UINT __stdcall updatePumpGSC(void *args)
 		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 4);             // move cursor to cords [x,y]
 		printf("Quantity Fueled: %02d", 0);
 		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 5);             // move cursor to cords [x,y]
-		printf("Cost:            %02d", 0);
+	    printf("Cost:            %02d", 0);
 		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 6);             // move cursor to cords [x,y]
+		printf("Time:                            ");
+
 		fflush(stdout);		      	// force output to be written to screen
-		MOVE_CURSOR(0, heightOffset + 8);
+		MOVE_CURSOR(0, heightOffset + 9);
 		writeSemaphore.Signal();
 		SLEEP(200);
 	}
