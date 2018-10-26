@@ -6,12 +6,19 @@
 #include "..\SharedConstants.h"
 #include "..\Transaction.h"
 #include "..\Assignment1\FuelTankMonitor.h"
+#include <map>
 
 UINT __stdcall updateTankGSC(void *args); 
 UINT __stdcall updatePumpGSC(void *args);
 FuelTankMonitor fuelTank;
 const int pumpDisplayWidth = 50;
 const int heightOffset = 4;
+map<int, double> costMap = {
+{ 87, 1.512},
+{ 89, 1.634},
+{ 91, 1.755},
+{ 93, 2.111}
+};
 
 int main() {
 
@@ -111,9 +118,19 @@ UINT __stdcall updatePumpGSC(void *args)
 	string banner = " # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # "
 					"# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # "
 					"# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #";
-
+	double tempCost;
+	double costMult;
+	
 	while (pumpData->pumpOn) {
 		while (!pumpData->complete) {
+			try
+			{
+				costMult = costMap.at(pumpData->transactionData.fuelGrade);
+			}
+			catch (const std::exception&)
+			{
+				costMult = costMap.at(87);
+			}
 			writeSemaphore.Wait();
 			MOVE_CURSOR(0, 0);
 			TEXT_COLOUR(14, 0);
@@ -132,9 +149,10 @@ UINT __stdcall updatePumpGSC(void *args)
 			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 3);             // move cursor to cords [x,y]
 			printf("Fuel Grade:      %02d", pumpData->fuelGrade);
 			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 4);             // move cursor to cords [x,y]
-			printf("Quantity Fueled: %02d", pumpData->quantityFueled);
+			printf("Quantity Fueled: %0.1f / %0.1f", pumpData->quantityFueled, pumpData->transactionData.fuelAmount);
 			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 5);             // move cursor to cords [x,y]
-			printf("Cost:            %02d", pumpData->quantityFueled);
+			tempCost = pumpData->quantityFueled*costMult;
+			printf("Cost:            %07.3f", costMult);
 			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 6);             // move cursor to cords [x,y]
 			strftime(tempTime, sizeof(tempTime), "%H:%M:%S", \
 				localtime(&pumpData->transactionData.timeOfPurchase));

@@ -1,5 +1,5 @@
 #include "Pump.h"
-
+#include "..\Assignment1\FuelTankMonitor.h"
 
 // Alex Von Schulmann 13975140
 // Alec Xu 38108130
@@ -19,6 +19,8 @@ Pump::~Pump()
 
 int Pump::main(void)
 {
+	FuelTankMonitor fuelTank;
+	printf("Made fuelTank");
 	// Make/find data pool with data in the struct
 	CRendezvous rPump("pumpRendezvous", NUMPUMPS + 2);
 	CDataPool pumpStatusDP(dataPoolName, sizeof(PumpStatus));
@@ -63,18 +65,21 @@ int Pump::main(void)
 
 		// Init data pool values
 		pumpData->complete = false;
-		pumpData->pumpOn = true;
 		pumpData->pumpPaused = true;
 		pumpData->quantityFueled = 0;
 		pumpData->transactionData = customerTransaction;
 		pumpData->fuelGrade = pumpData->transactionData.fuelGrade;
+		pumpData->pumpOn = true;
 
 		AllowPumping.Wait(); // Wait for GSC Authorization
 		pumpData->transactionData.timeOfPurchase = time(NULL);
 		while (pumpData->quantityFueled < pumpData->transactionData.fuelAmount) {
-
-			Sleep(1000);
+			if (fuelTank.decrementTank(pumpData->fuelGrade)) {
+				pumpData->quantityFueled = pumpData->quantityFueled + fuelTank.decResolution;
+			}
+			Sleep(250);
 		}
+
 		// Customer interaction
 		DispenseGasSemaphore.Signal(); // Signal end of dispensal
 		ReturnHoseSemaphore.Wait();

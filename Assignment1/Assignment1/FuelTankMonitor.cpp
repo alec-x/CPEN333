@@ -1,12 +1,13 @@
 #include "FuelTankMonitor.h"
+
 BOOL FuelTankMonitor::decrementTank(int grade)
 {
 	theMutex->Wait();
 	int index = gradeMap.at(grade);
 	BOOL Status = FALSE;
-	if (Tanks[index] >= decResolution) {
+	if (dataPointer[index] >= decResolution) {
 		Status = TRUE;
-		Tanks[index] -= decResolution;
+		dataPointer[index] -= decResolution;
 	}
 	theMutex->Signal();
 	return Status;
@@ -15,27 +16,30 @@ BOOL FuelTankMonitor::decrementTank(int grade)
 void FuelTankMonitor::addFuel(int index, double amount)
 {
 	theMutex->Wait();
-	Tanks[index] += amount;
-	if (Tanks[index] >= maxTank) {
-		Tanks[index] = maxTank;
+	dataPointer[index] += amount;
+	if (dataPointer[index] >= maxTank) {
+		dataPointer[index] = maxTank;
 	}
 	theMutex->Signal();
 }
 
 double FuelTankMonitor::queryTank(int grade) {
 	int index = gradeMap.at(grade);
-	return Tanks[index];
+	return dataPointer[index];
 }
 
 FuelTankMonitor::FuelTankMonitor()
 {
+	fuelTankDataPool = new CDataPool("fuelTankDataPool", sizeof(dataPointer));
+	dataPointer = (double*)(fuelTankDataPool->LinkDataPool());
 	theMutex = new CMutex("MyBankAccount");
-	for (int i = 0; i < size(Tanks); i++) {
-		Tanks[i] = maxTank - 100;
+	for (unsigned int i = 0; i < size(Tanks); i++) {
+		dataPointer[i] = maxTank - 100;
 	}
 }
 
 FuelTankMonitor::~FuelTankMonitor()
 {
 	delete theMutex;
+	delete fuelTankDataPool;
 }

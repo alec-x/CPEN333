@@ -4,7 +4,7 @@
 struct Transaction {
 	time_t timeOfPurchase = 28800;
 	char customerName[32];
-	int  fuelAmount;
+	double  fuelAmount;
 	char ccNumber[17];
 	int  fuelGrade;
 };
