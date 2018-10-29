@@ -7,13 +7,21 @@
 #include "..\Transaction.h"
 #include "..\Assignment1\FuelTankMonitor.h"
 #include <map>
+#include <list>
+#include <vector>
 
+//GLOBAL VARIABLES
+std::vector<Transaction> transactionRecords;
 int pausePumpSignal[NUMPUMPS];
-UINT __stdcall updateTankGSC(void *args); 
-UINT __stdcall updatePumpGSC(void *args);
-FuelTankMonitor fuelTank;
 const int pumpDisplayWidth = 50;
 const int heightOffset = 4;
+
+UINT __stdcall updateTankGSC(void *args); 
+UINT __stdcall updatePumpGSC(void *args);
+void displayTransaction(unsigned int transactionNum);
+FuelTankMonitor fuelTank;
+
+
 map<int, double> costMap = {
 { grades[0], 1.512},
 { grades[1], 1.634},
@@ -115,7 +123,18 @@ int main() {
 				continue;
 			}
 		}
-
+		else if (userInput == "tl") {
+			cin >> i;
+			try
+			{
+				displayTransaction(i);
+			}
+			catch (const std::exception&)
+			{
+				continue;
+			}
+		}
+		
 		writeSemaphore.Wait();
 		MOVE_CURSOR(0, heightOffset + 11);
 		printf("                           ");
@@ -146,6 +165,7 @@ int main() {
 UINT __stdcall updatePumpGSC(void *args)
 {
 	CSemaphore writeSemaphore("GSCWrite", 1);
+	CSemaphore recordTransactionSemaphore("GSCTransaction", 1);
 	string dataPoolName = *(string *)(args);
 	CDataPool pumpStatusDP(dataPoolName, sizeof(PumpStatus));
 	PumpStatus *pumpData = (PumpStatus *)(pumpStatusDP.LinkDataPool());
@@ -229,11 +249,40 @@ UINT __stdcall updatePumpGSC(void *args)
 		fflush(stdout);		      	// force output to be written to screen
 		MOVE_CURSOR(0, heightOffset + 11);
 		writeSemaphore.Signal();
+		recordTransactionSemaphore.Wait();
+		transactionRecords.push_back(pumpData->transactionData);
+		recordTransactionSemaphore.Signal();
 		SLEEP(200);
 	}
 
 
 	return 0;
+}
+
+void displayTransaction(unsigned int transactionNum)
+{
+	Transaction displayedTransaction = transactionRecords[transactionNum];
+	CSemaphore writeSemaphore("GSCWrite", 1);
+	char tempTime[32];
+	writeSemaphore.Wait();
+	TEXT_COLOUR(14, 0);
+	MOVE_CURSOR(0, heightOffset + 14);
+	printf("TRANSACTION LOOKUP:    %d", transactionNum);
+	MOVE_CURSOR(0, heightOffset + 15);
+	printf("Name:                  %-32s", displayedTransaction.customerName);
+	MOVE_CURSOR(0, heightOffset + 16);
+	printf("Credit Card #:         %-32s", displayedTransaction.ccNumber);
+	MOVE_CURSOR(0, heightOffset + 17);
+	printf("Fuel Amount:           %02f", displayedTransaction.fuelAmount);
+	MOVE_CURSOR(0, heightOffset + 18);
+	printf("Fuel Grade:            %02d", displayedTransaction.fuelGrade);
+	strftime(tempTime, sizeof(tempTime), "%H:%M:%S", \
+		localtime(&displayedTransaction.timeOfPurchase));
+	MOVE_CURSOR(0, heightOffset + 19);
+	printf("Time of Purchase:      %s", tempTime);
+	fflush(stdout);
+	writeSemaphore.Signal();
+	return;
 }
 
 
