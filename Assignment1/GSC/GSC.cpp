@@ -15,10 +15,10 @@ FuelTankMonitor fuelTank;
 const int pumpDisplayWidth = 50;
 const int heightOffset = 4;
 map<int, double> costMap = {
-{ 87, 1.512},
-{ 89, 1.634},
-{ 91, 1.755},
-{ 93, 2.111}
+{ grades[0], 1.512},
+{ grades[1], 1.634},
+{ grades[2], 1.755},
+{ grades[3], 2.111}
 };
 
 int main() {
@@ -55,6 +55,7 @@ int main() {
 	while (1) {
 		int i, index;
 		int j = 0;
+		double k = 0.0;
 
 		cin >> userInput;
 		if (userInput == "ap")
@@ -69,7 +70,7 @@ int main() {
 			cin >> i;
 			try
 			{
-				index = fuelTank.gradeMap.at(i);
+				index = gradeMap.at(i);
 			}
 			catch (const std::exception&)
 			{
@@ -78,6 +79,20 @@ int main() {
 			cin >> j;
 			fuelTank.addFuel(index, (double)j);
 		}
+		else if (userInput == "cp") {
+			cin >> i;
+			try
+			{
+				index = gradeMap.at(i);
+			}
+			catch (const std::exception&)
+			{
+				continue;
+			}
+			cin >> k;
+			costMap[i] = k;
+		}
+
 		else if (userInput == "sp") {
 			cin >> i;
 			try 
@@ -102,13 +117,13 @@ int main() {
 		}
 
 		writeSemaphore.Wait();
-		MOVE_CURSOR(0, heightOffset + 8);
+		MOVE_CURSOR(0, heightOffset + 11);
 		printf("                           ");
-		MOVE_CURSOR(0, heightOffset + 9);
+		MOVE_CURSOR(0, heightOffset + 12);
 		printf("                           ");
-		MOVE_CURSOR(0, heightOffset + 9);
-		printf("%s %d %d", userInput.c_str(), i, j);
-		MOVE_CURSOR(0, heightOffset + 8);
+		MOVE_CURSOR(0, heightOffset + 12);
+		printf("%s %d %d %f", userInput.c_str(), i, j, k);
+		MOVE_CURSOR(0, heightOffset + 11);
 		fflush(stdout);
 		writeSemaphore.Signal();
 
@@ -136,26 +151,27 @@ UINT __stdcall updatePumpGSC(void *args)
 	PumpStatus *pumpData = (PumpStatus *)(pumpStatusDP.LinkDataPool());
 	int offset = dataPoolName.back() - '0';
 	char tempTime[32];
-	printf("%d", pumpData->complete);
-	printf("%d", pumpData->fuelGrade);
-	printf("%d", pumpData->pumpOn);
-	printf("%s", pumpData->transactionData.customerName);
 
 	string banner = " # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # "
 					"# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # "
 					"# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #";
-	double tempCost;
-	double costMult;
 	
 	while (pumpData->pumpOn) {
+		double GSCPrices[] = { costMap.at(grades[0]), costMap.at(grades[1]), costMap.at(grades[2]), costMap.at(grades[3]) };
+		for (unsigned int i = 0; i < size(GSCPrices); i++)
+		{
+			pumpData->prices[i] = GSCPrices[i];
+		}
+
 		while (!pumpData->complete) {
+			double costMult;
 			try
 			{
-				costMult = costMap.at(pumpData->transactionData.fuelGrade);
+				costMult = pumpData->prices[gradeMap.at(pumpData->fuelGrade)];
 			}
 			catch (const std::exception&)
 			{
-				costMult = costMap.at(87);
+				costMult = pumpData->prices[0];
 			}
 			writeSemaphore.Wait();
 			MOVE_CURSOR(0, 0);
@@ -167,7 +183,7 @@ UINT __stdcall updatePumpGSC(void *args)
 			printf("%s", banner.c_str());
 			TEXT_COLOUR(15, 0);
 			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset);             // move cursor to cords [x,y]
-			printf("%s Information:", dataPoolName.c_str());
+			printf("Pump %d Information:", offset);
 			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 1);             // move cursor to cords [x,y]
 			printf("Name:            %-32s", pumpData->transactionData.customerName);
 			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 2);             // move cursor to cords [x,y]
@@ -177,14 +193,13 @@ UINT __stdcall updatePumpGSC(void *args)
 			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 4);             // move cursor to cords [x,y]
 			printf("Quantity Fueled: %0.1f / %0.1f", pumpData->quantityFueled, pumpData->transactionData.fuelAmount);
 			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 5);             // move cursor to cords [x,y]
-			tempCost = pumpData->quantityFueled*costMult;
-			printf("Cost:            %07.3f", costMult);
+			printf("Cost:            %07.3f", pumpData->quantityFueled * costMult);
 			MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 6);             // move cursor to cords [x,y]
 			strftime(tempTime, sizeof(tempTime), "%H:%M:%S", \
 				localtime(&pumpData->transactionData.timeOfPurchase));
 			printf("Time:            %s", tempTime);
 			fflush(stdout);		      	// force output to be written to screen
-			MOVE_CURSOR(0, heightOffset + 8);
+			MOVE_CURSOR(0, heightOffset + 11);
 			writeSemaphore.Signal();
 			SLEEP(200);
 
@@ -212,7 +227,7 @@ UINT __stdcall updatePumpGSC(void *args)
 		printf("Time:                            ");
 
 		fflush(stdout);		      	// force output to be written to screen
-		MOVE_CURSOR(0, heightOffset + 9);
+		MOVE_CURSOR(0, heightOffset + 11);
 		writeSemaphore.Signal();
 		SLEEP(200);
 	}
@@ -225,13 +240,57 @@ UINT __stdcall updatePumpGSC(void *args)
 UINT __stdcall updateTankGSC(void *args)
 {
 	CSemaphore writeSemaphore("GSCWrite", 1);
-	while (1) {
-		SLEEP(200);
-		writeSemaphore.Wait();
-		MOVE_CURSOR(0, heightOffset + 7);
-		printf("%.1f %.1f %.1f %.1f\n", fuelTank.queryTank(87), fuelTank.queryTank(89), fuelTank.queryTank(91), fuelTank.queryTank(93));
-		MOVE_CURSOR(0, heightOffset + 8);
-		writeSemaphore.Signal();
+	CCondition* allowFueling[4];
+	for (int i = 0; i < 4; i++)
+	{
+		string condName = "allowFueling" + to_string(i);
+		allowFueling[i] = new CCondition(condName);
 	}
+	int toggle[] = { 0,0,0,0 };
+
+	while (1) {
+		writeSemaphore.Wait();
+		MOVE_CURSOR(0, heightOffset + 8);
+		printf("Tank Status:");
+		MOVE_CURSOR(0, heightOffset + 9);
+		for (unsigned int i = 0; i < size(grades); i++)
+		{
+			printf("%02d   ", grades[i]);
+		}
+		MOVE_CURSOR(0, heightOffset + 10);
+		for (unsigned int i = 0; i < size(grades); i++)
+		{
+			double tankLevel = fuelTank.queryTank(grades[i]);
+			if (tankLevel < 200.0)
+			{
+				allowFueling[i]->Reset();
+				if (toggle[i])
+				{
+					TEXT_COLOUR(0, 0);
+					toggle[i] = 0;
+				}
+				else {
+					TEXT_COLOUR(12, 0);
+					toggle[i] = 1;
+				}
+			}
+			else {
+				allowFueling[i]->Signal();
+				TEXT_COLOUR(15, 0);
+				toggle[i] = 0;
+			}
+			printf("%3.1f  ", tankLevel);
+		}
+		TEXT_COLOUR(15, 0);
+		MOVE_CURSOR(0, heightOffset + 11);
+		writeSemaphore.Signal();
+		Sleep(200);
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		delete(allowFueling[i]);
+	}
+
 	return 0;
 }

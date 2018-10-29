@@ -1,5 +1,4 @@
 #include "Pump.h"
-#include "..\Assignment1\FuelTankMonitor.h"
 
 // Alex Von Schulmann 13975140
 // Alec Xu 38108130
@@ -19,8 +18,8 @@ Pump::~Pump()
 
 int Pump::main(void)
 {
+	int timing_ms = 250;
 	FuelTankMonitor fuelTank;
-	printf("Made fuelTank");
 	// Make/find data pool with data in the struct
 	CRendezvous rPump("pumpRendezvous", NUMPUMPS + 2);
 	CDataPool pumpStatusDP(dataPoolName, sizeof(PumpStatus));
@@ -39,6 +38,14 @@ int Pump::main(void)
 
 	// Create Semaphores with GSC
 	CSemaphore AllowPumping("AllowPumpingSemaphore" + to_string(pumpNum), 0);
+
+	// Condition for low Tank
+	CCondition* allowFueling[4];
+	for (int i = 0; i < 4; i++)
+	{
+		string condName = "allowFueling" + to_string(i);
+		allowFueling[i] = new CCondition(condName);
+	}
 
 	// Make struct to link to the data
 	PumpStatus *pumpData = (PumpStatus *)(pumpStatusDP.LinkDataPool());
@@ -72,13 +79,16 @@ int Pump::main(void)
 		pumpData->pumpOn = true;
 
 		AllowPumping.Wait(); // Wait for GSC Authorization
+
+		// Ensure adequate fuel
+		allowFueling[gradeMap.at(pumpData->fuelGrade)]->Wait();
 		while (pumpData->pumpPaused);
 		pumpData->transactionData.timeOfPurchase = time(NULL);
 		while (pumpData->quantityFueled < pumpData->transactionData.fuelAmount) {
 			if (fuelTank.decrementTank(pumpData->fuelGrade)) {
 				pumpData->quantityFueled = pumpData->quantityFueled + fuelTank.decResolution;
 			}
-			Sleep(250);
+			Sleep(timing_ms);
 			while (pumpData->pumpPaused);
 		}
 
@@ -89,6 +99,11 @@ int Pump::main(void)
 		Sleep(500);
 		pumpData->complete = true;
 
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		delete(allowFueling[i]);
 	}
 
 	return 0;

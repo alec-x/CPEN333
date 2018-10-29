@@ -2,6 +2,7 @@
 #include "Tank.h"
 #include "..\rt.h"
 #include <map>
+#include "..\SharedConstants.h"
 
 class FuelTankMonitor
 {
@@ -16,12 +17,6 @@ public:
 	BOOL decrementTank(int grade);
 	void addFuel(int grade, double amount);
 	double queryTank(int grade);
-	const map<int, int> gradeMap = {
-	{ 87, 0},
-	{ 89, 1},
-	{ 91, 2},
-	{ 93, 3}
-	};
 	FuelTankMonitor();
 	~FuelTankMonitor();
 };
