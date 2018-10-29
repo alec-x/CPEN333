@@ -4,6 +4,7 @@
 #include "../PumpStatus.h"
 #include "..\Transaction.h"
 #include "..\SharedConstants.h"
+#include "..\Assignment1\FuelTankMonitor.h"
 
 
 /* 
