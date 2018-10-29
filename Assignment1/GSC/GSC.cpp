@@ -90,13 +90,13 @@ int main() {
 		}
 
 		writeSemaphore.Wait();
-		MOVE_CURSOR(0, heightOffset + 10);
-		printf("                           ");
 		MOVE_CURSOR(0, heightOffset + 11);
 		printf("                           ");
-		MOVE_CURSOR(0, heightOffset + 11);
+		MOVE_CURSOR(0, heightOffset + 12);
+		printf("                           ");
+		MOVE_CURSOR(0, heightOffset + 12);
 		printf("%s %d %d %f", userInput.c_str(), i, j, k);
-		MOVE_CURSOR(0, heightOffset + 10);
+		MOVE_CURSOR(0, heightOffset + 11);
 		fflush(stdout);
 		writeSemaphore.Signal();
 
@@ -172,7 +172,7 @@ UINT __stdcall updatePumpGSC(void *args)
 				localtime(&pumpData->transactionData.timeOfPurchase));
 			printf("Time:            %s", tempTime);
 			fflush(stdout);		      	// force output to be written to screen
-			MOVE_CURSOR(0, heightOffset + 10);
+			MOVE_CURSOR(0, heightOffset + 11);
 			writeSemaphore.Signal();
 			SLEEP(200);
 
@@ -198,7 +198,7 @@ UINT __stdcall updatePumpGSC(void *args)
 		printf("Time:                            ");
 
 		fflush(stdout);		      	// force output to be written to screen
-		MOVE_CURSOR(0, heightOffset + 10);
+		MOVE_CURSOR(0, heightOffset + 11);
 		writeSemaphore.Signal();
 		SLEEP(200);
 	}
@@ -221,14 +221,14 @@ UINT __stdcall updateTankGSC(void *args)
 
 	while (1) {
 		writeSemaphore.Wait();
-		MOVE_CURSOR(0, heightOffset + 7);
-		printf("Tank Status:");
 		MOVE_CURSOR(0, heightOffset + 8);
+		printf("Tank Status:");
+		MOVE_CURSOR(0, heightOffset + 9);
 		for (unsigned int i = 0; i < size(grades); i++)
 		{
 			printf("%02d   ", grades[i]);
 		}
-		MOVE_CURSOR(0, heightOffset + 9);
+		MOVE_CURSOR(0, heightOffset + 10);
 		for (unsigned int i = 0; i < size(grades); i++)
 		{
 			double tankLevel = fuelTank.queryTank(grades[i]);
@@ -253,7 +253,7 @@ UINT __stdcall updateTankGSC(void *args)
 			printf("%3.1f  ", tankLevel);
 		}
 		TEXT_COLOUR(15, 0);
-		MOVE_CURSOR(0, heightOffset + 10);
+		MOVE_CURSOR(0, heightOffset + 11);
 		writeSemaphore.Signal();
 		Sleep(200);
 	}
