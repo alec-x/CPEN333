@@ -8,6 +8,7 @@
 #include "..\Assignment1\FuelTankMonitor.h"
 #include <map>
 
+int pausePumpSignal[NUMPUMPS];
 UINT __stdcall updateTankGSC(void *args); 
 UINT __stdcall updatePumpGSC(void *args);
 FuelTankMonitor fuelTank;
@@ -45,7 +46,10 @@ int main() {
 		name_arg[i] = "CDataPoolPump" + to_string(i);
 		pumpMonitors[i] = new CThread(updatePumpGSC, ACTIVE, &name_arg[i]);
 	}
-	
+
+	for (int i = 0; i < NUMPUMPS; i++) {
+		pausePumpSignal[i] = 0;
+	}
 	// Main (forever)
 	string userInput;
 	while (1) {
@@ -74,7 +78,29 @@ int main() {
 			cin >> j;
 			fuelTank.addFuel(index, (double)j);
 		}
-		
+		else if (userInput == "sp") {
+			cin >> i;
+			try 
+			{
+				pausePumpSignal[i] = 1;
+			}
+			catch (const std::exception&) 
+			{
+				continue;
+			}
+		}
+		else if (userInput == "ep") {
+			cin >> i;
+			try
+			{
+				pausePumpSignal[i] = 0;
+			}
+			catch (const std::exception&)
+			{
+				continue;
+			}
+		}
+
 		writeSemaphore.Wait();
 		MOVE_CURSOR(0, heightOffset + 8);
 		printf("                           ");
@@ -162,10 +188,12 @@ UINT __stdcall updatePumpGSC(void *args)
 			writeSemaphore.Signal();
 			SLEEP(200);
 
-
-
-
-
+			if (pausePumpSignal[offset]) {
+				pumpData->pumpPaused = 1;
+			}
+			else {
+				pumpData->pumpPaused = 0;
+			}
 		}
 
 		SLEEP(500);

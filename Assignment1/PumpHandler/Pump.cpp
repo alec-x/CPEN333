@@ -49,7 +49,7 @@ int Pump::main(void)
 
 	pumpData->complete = false;
 	pumpData->pumpOn = true;
-	pumpData->pumpPaused = true;
+	pumpData->pumpPaused = false;
 	pumpData->quantityFueled = 0;
 	pumpData->fuelGrade = 0;
 
@@ -72,12 +72,14 @@ int Pump::main(void)
 		pumpData->pumpOn = true;
 
 		AllowPumping.Wait(); // Wait for GSC Authorization
+		while (pumpData->pumpPaused);
 		pumpData->transactionData.timeOfPurchase = time(NULL);
 		while (pumpData->quantityFueled < pumpData->transactionData.fuelAmount) {
 			if (fuelTank.decrementTank(pumpData->fuelGrade)) {
 				pumpData->quantityFueled = pumpData->quantityFueled + fuelTank.decResolution;
 			}
 			Sleep(250);
+			while (pumpData->pumpPaused);
 		}
 
 		// Customer interaction
