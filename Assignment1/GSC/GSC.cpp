@@ -9,6 +9,7 @@
 #include <map>
 #include <list>
 #include <vector>
+#include <iostream>
 
 //GLOBAL VARIABLES
 std::vector<Transaction> transactionRecords;
@@ -41,6 +42,20 @@ int main() {
 		AllowPumping[i] = new CSemaphore("AllowPumpingSemaphore" + to_string(i), 0);
 	}
 	
+	
+	// remove CSV and replace with blank
+	if (remove("..\\customerData.txt") != 0) {
+		perror("Error deleting file");
+	}
+	FILE *initstream;
+	if (fopen_s(&initstream, "..\\customerData.txt", "a+")) {
+		MessageBox(NULL, "DB csv link could not be initialized", NULL, MB_OK);
+	}
+	if (initstream)
+	{
+		fclose(initstream);
+	}
+		
 	// Wait until everything initialized
 	rPump.Wait();
 	rv.Wait();
@@ -158,7 +173,7 @@ int main() {
 
 	tankMonitor->WaitForThread();
 	delete(tankMonitor);
-	
+
 	return 0;
 }
 
@@ -167,9 +182,11 @@ UINT __stdcall updatePumpGSC(void *args)
 	CSemaphore writeSemaphore("GSCWrite", 1);
 	CSemaphore recordTransactionSemaphore("GSCTransaction", 1);
 	string dataPoolName = *(string *)(args);
+	FILE *stream;
 	CDataPool pumpStatusDP(dataPoolName, sizeof(PumpStatus));
 	PumpStatus *pumpData = (PumpStatus *)(pumpStatusDP.LinkDataPool());
 	int offset = dataPoolName.back() - '0';
+	int recordswitch = 0;
 	char tempTime[32];
 
 	string banner = " # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # "
@@ -229,6 +246,8 @@ UINT __stdcall updatePumpGSC(void *args)
 			else {
 				pumpData->pumpPaused = 0;
 			}
+			// stops multiple recordings
+			recordswitch = 1;
 		}
 
 		SLEEP(500);
@@ -249,10 +268,31 @@ UINT __stdcall updatePumpGSC(void *args)
 		fflush(stdout);		      	// force output to be written to screen
 		MOVE_CURSOR(0, heightOffset + 11);
 		writeSemaphore.Signal();
-		recordTransactionSemaphore.Wait();
-		transactionRecords.push_back(pumpData->transactionData);
-		recordTransactionSemaphore.Signal();
+		if (recordswitch) {
+			recordTransactionSemaphore.Wait();
+			transactionRecords.push_back(pumpData->transactionData);
+			int recordNum = transactionRecords.size() - 1;
+			if (fopen_s(&stream, "..\\customerData.txt", "a+")) {
+				MessageBox(NULL, "DB csv link could not be opened for writing", NULL, MB_OK);
+			}
+			else {
+				fprintf(stream, "%s, ", pumpData->transactionData.customerName);
+				fprintf(stream, "%s, ", pumpData->transactionData.ccNumber);
+				fprintf(stream, "%02d, ", pumpData->fuelGrade);
+				fprintf(stream, "%0.1f, ", pumpData->transactionData.fuelAmount);
+				fprintf(stream, "%.2f, ", pumpData->transactionData.fuelAmount * pumpData->prices[gradeMap.at(pumpData->fuelGrade)]);
+				fprintf(stream, "%d\n", pumpData->transactionData.timeOfPurchase);
+			}
+			if (stream)
+			{
+				fclose(stream);
+			}
+			recordTransactionSemaphore.Signal();
+			recordswitch = 0;
+		}
+
 		SLEEP(200);
+
 	}
 
 
