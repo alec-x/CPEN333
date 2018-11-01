@@ -14,6 +14,7 @@
 //GLOBAL VARIABLES
 std::vector<Transaction> transactionRecords;
 int pausePumpSignal[NUMPUMPS];
+bool killSwitch;
 const int pumpDisplayWidth = 50;
 const int heightOffset = 4;
 
@@ -37,6 +38,9 @@ int main() {
 
 	CSemaphore writeSemaphore("GSCWrite", 1);
 	CSemaphore* AllowPumping[NUMPUMPS];
+	CSemaphore* ProdSemaphores[NUMPUMPS];
+	CSemaphore* ConsSemaphores[NUMPUMPS];
+
 	for (int i = 0; i < NUMPUMPS; i++)
 	{
 		AllowPumping[i] = new CSemaphore("AllowPumpingSemaphore" + to_string(i), 0);
@@ -72,11 +76,14 @@ int main() {
 
 	for (int i = 0; i < NUMPUMPS; i++) {
 		pausePumpSignal[i] = 0;
+		killSwitch = false;
 	}
+
 	// Main (forever)
 	string userInput;
-	while (1) {
-		int i, index;
+	while (!killSwitch) {
+		int i = 0;
+		int index;
 		int j = 0;
 		double k = 0.0;
 
@@ -149,6 +156,9 @@ int main() {
 				continue;
 			}
 		}
+		else if (userInput == "off") {
+			killSwitch = true;
+		}
 		
 		writeSemaphore.Wait();
 		MOVE_CURSOR(0, heightOffset + 11);
@@ -166,12 +176,20 @@ int main() {
 	// Wait for threads to finish and clean up
 	for (int i = 0; i < NUMPUMPS; i++)
 	{
+		try
+		{
+			AllowPumping[i]->Signal();
+		}
+		catch (const std::exception&)
+		{
+				
+		}
 		pumpMonitors[i]->WaitForThread();
 		delete(pumpMonitors[i]);
 		delete(AllowPumping[i]);
 	}
 
-	tankMonitor->WaitForThread();
+	//tankMonitor->WaitForThread();
 	delete(tankMonitor);
 
 	return 0;
@@ -179,13 +197,15 @@ int main() {
 
 UINT __stdcall updatePumpGSC(void *args)
 {
+	string dataPoolName = *(string *)(args);
+	int offset = dataPoolName.back() - '0';
 	CSemaphore writeSemaphore("GSCWrite", 1);
 	CSemaphore recordTransactionSemaphore("GSCTransaction", 1);
-	string dataPoolName = *(string *)(args);
+	CSemaphore ProdSemaphore("ProdSemaphore" + offset, 0);
+	CSemaphore ConsSemaphore("ConsSemaphore" + offset, 1);
 	FILE *stream;
 	CDataPool pumpStatusDP(dataPoolName, sizeof(PumpStatus));
 	PumpStatus *pumpData = (PumpStatus *)(pumpStatusDP.LinkDataPool());
-	int offset = dataPoolName.back() - '0';
 	int recordswitch = 0;
 	char tempTime[32];
 
@@ -210,7 +230,9 @@ UINT __stdcall updatePumpGSC(void *args)
 			{
 				costMult = pumpData->prices[0];
 			}
+			
 			writeSemaphore.Wait();
+			//ProdSemaphore.Wait();
 			MOVE_CURSOR(0, 0);
 			TEXT_COLOUR(14, 0);
 			printf("%s", banner.c_str());
@@ -246,8 +268,13 @@ UINT __stdcall updatePumpGSC(void *args)
 			else {
 				pumpData->pumpPaused = 0;
 			}
+
+			if (killSwitch) {
+				pumpData->pumpOn = false;
+			}
 			// stops multiple recordings
 			recordswitch = 1;
+			//ConsSemaphore.Signal();
 		}
 
 		SLEEP(500);
@@ -294,8 +321,10 @@ UINT __stdcall updatePumpGSC(void *args)
 		SLEEP(200);
 
 	}
+	
 
 
+	
 	return 0;
 }
 
@@ -337,7 +366,7 @@ UINT __stdcall updateTankGSC(void *args)
 	}
 	int toggle[] = { 0,0,0,0 };
 
-	while (1) {
+	while (!killSwitch) {
 		writeSemaphore.Wait();
 		MOVE_CURSOR(0, heightOffset + 8);
 		printf("Tank Status:");

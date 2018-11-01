@@ -4,19 +4,8 @@
 
 int main() {
 
-	// ===========
-	// ===========
-	// === TESTING
 	const int numCustomers = 100;
 	Customer customerArray[numCustomers];
-
-
-
-	// === TESTING
-	// ===========
-	// ===========
-
-
 
 	CRendezvous rv("processRendezvous", NUMPROCESS);
 
@@ -42,13 +31,9 @@ int main() {
 	{
 		srand(i + 1);
 		customerArray[i].Resume();
-		Sleep(rand() % 3000);
+		Sleep(rand() % 30);
 	}
-
-	for (int i = 0; i < numCustomers; i++)
-	{
-		customerArray[i].WaitForThread();
-	}
+	GSCProcess.WaitForProcess();
 	
 	return 0;
 }

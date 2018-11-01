@@ -35,7 +35,8 @@ int Pump::main(void)
 	CSemaphore DispenseGasSemaphore("DispenseGasSemaphore" + to_string(pumpNum), 0);
 	CSemaphore ReturnHoseSemaphore("ReturnHoseSemaphore" + to_string(pumpNum), 0);
 	CSemaphore LeaveSemaphore("LeaveSemaphore" + to_string(pumpNum), 0);
-
+	CSemaphore ProdSemaphore("ProdSemaphore" + to_string(pumpNum), 0);	
+	CSemaphore ConsSemaphore("ConsSemaphore" + to_string(pumpNum), 1);
 	// Create Semaphores with GSC
 	CSemaphore AllowPumping("AllowPumpingSemaphore" + to_string(pumpNum), 0);
 
@@ -84,10 +85,12 @@ int Pump::main(void)
 		allowFueling[gradeMap.at(pumpData->fuelGrade)]->Wait();
 		while (pumpData->pumpPaused);
 		pumpData->transactionData.timeOfPurchase = time(NULL);
-		while (pumpData->quantityFueled < pumpData->transactionData.fuelAmount) {
+		while (pumpData->quantityFueled < pumpData->transactionData.fuelAmount && pumpData->pumpOn) {
+			//ConsSemaphore.Wait();
 			if (fuelTank.decrementTank(pumpData->fuelGrade)) {
 				pumpData->quantityFueled = pumpData->quantityFueled + fuelTank.decResolution;
 			}
+			//ProdSemaphore.Signal();
 			Sleep(timing_ms);
 			while (pumpData->pumpPaused);
 		}
