@@ -38,8 +38,6 @@ int main() {
 
 	CSemaphore writeSemaphore("GSCWrite", 1);
 	CSemaphore* AllowPumping[NUMPUMPS];
-	CSemaphore* ProdSemaphores[NUMPUMPS];
-	CSemaphore* ConsSemaphores[NUMPUMPS];
 
 	for (int i = 0; i < NUMPUMPS; i++)
 	{
@@ -201,8 +199,6 @@ UINT __stdcall updatePumpGSC(void *args)
 	int offset = dataPoolName.back() - '0';
 	CSemaphore writeSemaphore("GSCWrite", 1);
 	CSemaphore recordTransactionSemaphore("GSCTransaction", 1);
-	CSemaphore ProdSemaphore("ProdSemaphore" + offset, 0);
-	CSemaphore ConsSemaphore("ConsSemaphore" + offset, 1);
 	FILE *stream;
 	CDataPool pumpStatusDP(dataPoolName, sizeof(PumpStatus));
 	PumpStatus *pumpData = (PumpStatus *)(pumpStatusDP.LinkDataPool());
@@ -232,7 +228,6 @@ UINT __stdcall updatePumpGSC(void *args)
 			}
 			
 			writeSemaphore.Wait();
-			//ProdSemaphore.Wait();
 			MOVE_CURSOR(0, 0);
 			TEXT_COLOUR(14, 0);
 			printf("%s", banner.c_str());
@@ -274,7 +269,6 @@ UINT __stdcall updatePumpGSC(void *args)
 			}
 			// stops multiple recordings
 			recordswitch = 1;
-			//ConsSemaphore.Signal();
 		}
 
 		SLEEP(500);
