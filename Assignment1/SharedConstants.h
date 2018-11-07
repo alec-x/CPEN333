@@ -1,6 +1,9 @@
 #pragma once
 #include <map>
 
+// Alex Von Schulmann 13975140
+// Alec Xu 38108130
+
 #define NUMPUMPS 4
 #define NUMPROCESS 3
 const int grades[] = { 87, 89, 91, 93};

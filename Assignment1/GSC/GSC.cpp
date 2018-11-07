@@ -1,4 +1,3 @@
-//#include "Pump.h"
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include "..\rt.h"
@@ -8,11 +7,12 @@
 #include "..\Assignment1\FuelTankMonitor.h"
 #include <map>
 #include <list>
-//#include <vector>
 #include <iostream>
 
-//GLOBAL VARIABLES
-//std::vector<Transaction> transactionRecords;
+// Alex Von Schulmann 13975140
+// Alec Xu 38108130
+
+// GLOBAL VARIABLES
 std::list<Transaction> transactionRecords;
 int transactionRecordSize = 0;
 int pausePumpSignal[NUMPUMPS];
@@ -25,7 +25,7 @@ UINT __stdcall updatePumpGSC(void *args);
 void displayTransaction(unsigned int transactionNum);
 FuelTankMonitor fuelTank;
 
-
+// Init map between costs and grades
 map<int, double> costMap = {
 { grades[0], 1.512},
 { grades[1], 1.634},
@@ -47,7 +47,7 @@ int main() {
 	}
 	
 	
-	// remove CSV and replace with blank
+	// Remove CSV and replace with blank
 	if (remove("..\\customerData.txt") != 0) {
 		perror("Error deleting file");
 	}
@@ -74,12 +74,13 @@ int main() {
 		pumpMonitors[i] = new CThread(updatePumpGSC, ACTIVE, &name_arg[i]);
 	}
 
+	// Ensure pumps are initialized as running
 	for (int i = 0; i < NUMPUMPS; i++) {
 		pausePumpSignal[i] = 0;
 		killSwitch = false;
 	}
 
-	// Main (forever)
+	// While running...
 	string userInput;
 	while (!killSwitch) {
 		int i = 0;
@@ -87,6 +88,7 @@ int main() {
 		int j = 0;
 		double k = 0.0;
 
+		// Poll for user input
 		cin >> userInput;
 		if (userInput == "ap")
 		{
@@ -156,10 +158,11 @@ int main() {
 				continue;
 			}
 		}
-		else if (userInput == "off") {
+		else if (userInput == "off") { // Turn off the program
 			killSwitch = true;
 		}
 		
+		// Print user input
 		writeSemaphore.Wait();
 		MOVE_CURSOR(0, heightOffset + 11);
 		printf("                           ");
@@ -189,16 +192,16 @@ int main() {
 		delete(AllowPumping[i]);
 	}
 
-	//tankMonitor->WaitForThread();
 	delete(tankMonitor);
 
 	return 0;
 }
 
+// Thread (per pump) to update the information in the GSC
 UINT __stdcall updatePumpGSC(void *args)
 {
 	string dataPoolName = *(string *)(args);
-	int offset = dataPoolName.back() - '0';
+	int offset = dataPoolName.back() - '0'; // Parses the pump number from argument string
 	CSemaphore writeSemaphore("GSCWrite", 1);
 	CSemaphore recordTransactionSemaphore("GSCTransaction", 1);
 	FILE *stream;
@@ -211,15 +214,19 @@ UINT __stdcall updatePumpGSC(void *args)
 					"# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # "
 					"# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #";
 	
+	// While running...
 	while (pumpData->pumpOn) {
+		// Update price (before new customer) if required
 		double GSCPrices[] = { costMap.at(grades[0]), costMap.at(grades[1]), costMap.at(grades[2]), costMap.at(grades[3]) };
 		for (unsigned int i = 0; i < size(GSCPrices); i++)
 		{
 			pumpData->prices[i] = GSCPrices[i];
 		}
 
+		// While handling a single customer (i.e. one loop per customer at this pump)
 		while (!pumpData->complete) {
 			double costMult;
+			// Apply cost multiplier
 			try
 			{
 				costMult = pumpData->prices[gradeMap.at(pumpData->fuelGrade)];
@@ -229,6 +236,7 @@ UINT __stdcall updatePumpGSC(void *args)
 				costMult = pumpData->prices[0];
 			}
 			
+			// Print data
 			writeSemaphore.Wait();
 			MOVE_CURSOR(0, 0);
 			TEXT_COLOUR(14, 0);
@@ -259,6 +267,7 @@ UINT __stdcall updatePumpGSC(void *args)
 			writeSemaphore.Signal();
 			SLEEP(200);
 
+			// If GSC operator wants pump paused (send command via datapool)
 			if (pausePumpSignal[offset]) {
 				pumpData->pumpPaused = 1;
 			}
@@ -266,13 +275,15 @@ UINT __stdcall updatePumpGSC(void *args)
 				pumpData->pumpPaused = 0;
 			}
 
+			// If GSC operator wants program to end
 			if (killSwitch) {
 				pumpData->pumpOn = false;
 			}
-			// stops multiple recordings
+			// Stops multiple recordings
 			recordswitch = 1;
 		}
 
+		// Print clean slate once customer leaves
 		SLEEP(500);
 		writeSemaphore.Wait();
 		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 1);             // move cursor to cords [x,y]
@@ -288,13 +299,14 @@ UINT __stdcall updatePumpGSC(void *args)
 		MOVE_CURSOR(offset * pumpDisplayWidth, heightOffset + 6);             // move cursor to cords [x,y]
 		printf("Time:                            ");
 
-		fflush(stdout);		      	// force output to be written to screen
+		fflush(stdout);		      	
 		MOVE_CURSOR(0, heightOffset + 11);
 		writeSemaphore.Signal();
 		if (recordswitch) {
 			recordTransactionSemaphore.Wait();
 			transactionRecords.push_back(pumpData->transactionData);
 			int recordNum = transactionRecords.size() - 1;
+			transactionRecordSize++;
 			if (fopen_s(&stream, "..\\customerData.txt", "a+")) {
 				MessageBox(NULL, "DB csv link could not be opened for writing", NULL, MB_OK);
 			}
@@ -310,6 +322,7 @@ UINT __stdcall updatePumpGSC(void *args)
 			{
 				fclose(stream);
 			}
+
 			recordTransactionSemaphore.Signal();
 			recordswitch = 0;
 		}
@@ -324,8 +337,10 @@ UINT __stdcall updatePumpGSC(void *args)
 	return 0;
 }
 
+// Displays the transaction information specified by the GSC Operator
 void displayTransaction(unsigned int transactionNum)
 {
+	// Use iterator to extract data from LinkedList (if index is valid)
 	std::list<Transaction>::iterator it = transactionRecords.begin();
 	if (transactionRecordSize >= transactionNum) {
 		std::advance(it, transactionNum);
@@ -361,7 +376,7 @@ void displayTransaction(unsigned int transactionNum)
 	return;
 }
 
-
+// Single thread to access the FuelTank monitor and provide status of the 4 tanks
 UINT __stdcall updateTankGSC(void *args)
 {
 	CSemaphore writeSemaphore("GSCWrite", 1);
@@ -380,7 +395,7 @@ UINT __stdcall updateTankGSC(void *args)
 		MOVE_CURSOR(0, heightOffset + 9);
 		for (unsigned int i = 0; i < size(grades); i++)
 		{
-			printf("%02d       ", grades[i]);
+			printf("%02d     ", grades[i]);
 		}
 		MOVE_CURSOR(0, heightOffset + 10);
 		for (unsigned int i = 0; i < size(grades); i++)

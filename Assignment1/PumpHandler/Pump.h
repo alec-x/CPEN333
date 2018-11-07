@@ -6,6 +6,8 @@
 #include "..\SharedConstants.h"
 #include "..\Assignment1\FuelTankMonitor.h"
 
+// Alex Von Schulmann 13975140
+// Alec Xu 38108130
 
 /* 
 	Should be able to:

@@ -2,6 +2,9 @@
 #include "..\SharedConstants.h"
 #include "..\Assignment1\Customer.h"
 
+// Alex Von Schulmann 13975140
+// Alec Xu 38108130
+
 int main() {
 
 	const int numCustomers = 100;
@@ -11,6 +14,7 @@ int main() {
 
 	// Init the other processes
 
+	
 	CProcess pumpHandlerProcess("..\\Debug\\PumpHandler.exe",	// pathlist to child program executable				
 		NORMAL_PRIORITY_CLASS,			// priority
 		OWN_WINDOW,						// process has its own window					
@@ -29,6 +33,7 @@ int main() {
 	// Create customers, world-events, etc.
 	for (int i = 0; i < numCustomers; i++)
 	{
+		// Pseudo-random seed
 		srand(i + 1);
 		customerArray[i].Resume();
 		Sleep(rand() % 30);

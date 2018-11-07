@@ -2,8 +2,10 @@
 
 // Alex Von Schulmann 13975140
 // Alec Xu 38108130
+
 Pump::Pump(int pumpNumber)
 {
+	// Name multi-threaded components based on pump number
 	dataPoolName = "CDataPoolPump" + to_string(pumpNumber);
 	dataPipeName = "CustomerPipeline" + to_string(pumpNumber);
 	pumpNum = pumpNumber;
@@ -14,11 +16,10 @@ Pump::~Pump()
 
 }
 
-
-
 int Pump::main(void)
 {
-	int timing_ms = 250;
+	int timing_ms = 250; // Rate of decrement by 0.5 L
+
 	FuelTankMonitor fuelTank;
 	// Make/find data pool with data in the struct
 	CRendezvous rPump("pumpRendezvous", NUMPUMPS + 2);
@@ -35,6 +36,7 @@ int Pump::main(void)
 	CSemaphore DispenseGasSemaphore("DispenseGasSemaphore" + to_string(pumpNum), 0);
 	CSemaphore ReturnHoseSemaphore("ReturnHoseSemaphore" + to_string(pumpNum), 0);
 	CSemaphore LeaveSemaphore("LeaveSemaphore" + to_string(pumpNum), 0);
+
 	// Create Semaphores with GSC
 	CSemaphore AllowPumping("AllowPumpingSemaphore" + to_string(pumpNum), 0);
 
