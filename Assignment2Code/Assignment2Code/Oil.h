@@ -17,7 +17,7 @@ public:
     int getQuantity();
 
     Oil(string Type, int Quantity);
-
+	Oil();
     ~Oil();
 };
 

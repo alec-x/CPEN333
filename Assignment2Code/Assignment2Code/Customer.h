@@ -9,13 +9,14 @@ class Customer
 {
 
 private:
-    Car CustomerCar;
-    JobSheet ServiceJobSheet;
+    class Car* CustomerCar;
+    class JobSheet* ServiceJobSheet;
     double Invoice;
     bool ServiceRecord;
-    class Receptionist* ReceptionistContact;
 
 public:
+	class Receptionist* theReceptionist;
+
     void ComeBackLater();
 
     void Leave();
@@ -24,6 +25,12 @@ public:
 
     void Pay(int double_Fee);
 
+	void AddCar(Car * aCar);
+	void DelCar();
+
+	void AddJobSheet(JobSheet * aJobSheet);
+	void DelJobSheet();
+
     Car GetCar();
 
     bool GetServiceRecord();
@@ -31,6 +38,9 @@ public:
     Customer();
 
     ~Customer();
+
+	void AddReceptionist(Receptionist * aReceptionist);
+	void DelReceptionist();
 };
 
 #endif

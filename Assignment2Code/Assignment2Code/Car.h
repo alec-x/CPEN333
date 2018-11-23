@@ -4,16 +4,19 @@
 #include "OilFilter.h"
 #include "AirFilter.h"
 #include "Tires.h"
+#include <string>
+
+using namespace std;
 
 class Car
 {
 
 private:
     bool TireStatus;
-    Oil CarOil;
-    OilFilter CarOilFilter;
-    AirFilter CarAirFilter;
-    Tires CarTires;
+    class Oil* CarOil;
+	class OilFilter* CarOilFilter;
+	class AirFilter* CarAirFilter;
+	class Tires* CarTires[4];
 
 public:
     Oil SwapOil(Oil NewOil);
@@ -23,6 +26,16 @@ public:
     AirFilter SwapAirFilter(AirFilter NewAirFilter);
 
     Tires SwapTires(Tires NewTires);
+
+	void AddOil(Oil *aOil);
+	void DelOil();
+	void AddOilFilter(OilFilter *aOilFilter);
+	void DelOilFilter();
+	void AddAirFilter(AirFilter *aAirFilter);
+	void DelAirFilter();
+	void AddTire(Tires *aTire, int index);
+
+	void DelTire(int index);
 
     bool CheckTiresForWear();
 

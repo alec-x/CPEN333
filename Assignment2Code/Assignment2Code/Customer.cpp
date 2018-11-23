@@ -24,6 +24,30 @@ void Customer::Pay(int double_Fee)
     throw "Not yet implemented";
 }
 
+void Customer::AddCar(Car *aCar)
+{
+	CustomerCar = aCar;
+}
+
+void Customer::DelCar()
+{
+	if (CustomerCar != NULL) {
+		CustomerCar = NULL;
+	}
+}
+
+void Customer::AddJobSheet(JobSheet *aJobSheet)
+{
+	ServiceJobSheet = aJobSheet;
+}
+
+void Customer::DelJobSheet()
+{
+	if (ServiceJobSheet != NULL) {
+		ServiceJobSheet = NULL;
+	}
+}
+
 Car Customer::GetCar()
 {
     // TODO - implement Customer::GetCar
@@ -46,4 +70,18 @@ Customer::~Customer()
 {
     // TODO - implement Customer::~Customer
     throw "Not yet implemented";
+}
+
+void Customer::AddReceptionist(Receptionist *aReceptionist)
+{
+	theReceptionist = aReceptionist;
+	theReceptionist->CustomerServicing = this;
+}
+
+void Customer::DelReceptionist()
+{
+	if (theReceptionist != NULL) {
+		theReceptionist->CustomerServicing = NULL;
+		theReceptionist = NULL;
+	}
 }

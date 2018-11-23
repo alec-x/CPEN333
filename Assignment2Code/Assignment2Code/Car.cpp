@@ -24,6 +24,54 @@ Tires Car::SwapTires(Tires NewTires)
     throw "Not yet implemented";
 }
 
+void Car::AddOil(Oil * aOil)
+{
+	CarOil = aOil;
+}
+
+void Car::DelOil()
+{
+	if (CarOil != NULL) {
+		CarOil = NULL;
+	}
+}
+
+void Car::AddOilFilter(OilFilter * aOilFilter)
+{
+	CarOilFilter = aOilFilter;
+}
+
+void Car::DelOilFilter()
+{
+	if (CarOilFilter != NULL) {
+		CarOilFilter = NULL;
+	}
+}
+
+void Car::AddAirFilter(AirFilter * aAirFilter)
+{
+	CarAirFilter = aAirFilter;
+}
+
+void Car::DelAirFilter()
+{
+	if (CarAirFilter != NULL) {
+		CarAirFilter = NULL;
+	}
+}
+
+void Car::AddTire(Tires * aTire, int index)
+{
+	CarTires[index] = aTire;
+}
+
+void Car::DelTire(int index)
+{
+	if (CarTires[index] != NULL) {
+		CarTires[index] = NULL;
+	}
+}
+
 bool Car::CheckTiresForWear()
 {
     // TODO - implement Car::CheckTiresForWear
@@ -36,8 +84,7 @@ void Car::RotateTires()
     throw "Not yet implemented";
 }
 
-Car::Car(): CarOil("lol", 20),
-			CarTires("lol", 20)
+Car::Car()
 {
     // TODO - implement Car::Car
     throw "Not yet implemented";

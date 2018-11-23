@@ -18,6 +18,10 @@ Oil::Oil(string Type, int Quantity)
     throw "Not yet implemented";
 }
 
+Oil::Oil()
+{
+}
+
 Oil::~Oil()
 {
     // TODO - implement Oil::~Oil
