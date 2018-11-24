@@ -33,7 +33,7 @@ public:
 	void AddJobSheet(JobSheet * aJobSheet);
 	void DelJobSheet();
 
-    Car GetCar(Car* theCar);
+    void GetCar(Car* theCar);
 
     void GetServiceRecord();
 

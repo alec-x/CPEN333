@@ -52,7 +52,7 @@ void Customer::DelJobSheet()
 	}
 }
 
-Car Customer::GetCar(Car *theCar)
+void Customer::GetCar(Car *theCar)
 {
 	cout << "I, the Customer, has taken back my Car" << endl;
 	CustomerCar = theCar;
