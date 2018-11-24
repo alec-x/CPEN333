@@ -1,35 +1,37 @@
 #include "Technician.h"
 
-JobSheet Technician::ServiceCar(Car* CarServicing)
+JobSheet* Technician::ServiceCar(Car* CarServicing)
 {
 	GetCar(CarServicing);
 	cout << "I, Jim, the Technician, have received the car\n";
 
+	CurrentJobSheet = JobSheet();
+
 	OilInventory = &(theStores->GetOil("Nice new oil", 10));
-	CurrentJobSheet->AddItem(1, 10, 5.00);
+	CurrentJobSheet.AddItem(1, 10, 5.00);
 	AirFilterInventory = &(theStores->GetAirFilter());
-	CurrentJobSheet->AddItem(2, 1, 25.00);
+	CurrentJobSheet.AddItem(2, 1, 25.00);
 	OilFilterInventory = &(theStores->GetOilFilter());
-	CurrentJobSheet->AddItem(3, 1, 35.00);
+	CurrentJobSheet.AddItem(3, 1, 35.00);
 	cout << "I, Jim, have picked up supplies from the store.\n";
 
 	OilInventory = &(CurrentCar->SwapOil(*OilInventory));
 	cout << "I, Jim, have swapped the oil.\n";
-	theRecycling->Recycle(*OilInventory);
+	theRecycling->Recycle(OilInventory);
 	OilInventory = NULL;
-	CurrentJobSheet->AddLabourItem("Oil Swap", 50.00);
+	CurrentJobSheet.AddLabourItem("Oil Swap", 50.00);
 
 	OilFilterInventory = &(CurrentCar->SwapOilFilter(*OilFilterInventory));
 	cout << "I, Jim, have swapped the oil filter.\n";
 	theGarbage->Dispose(*OilFilterInventory);
 	OilFilterInventory = NULL;
-	CurrentJobSheet->AddLabourItem("Oil Filter Swap", 29.99);
+	CurrentJobSheet.AddLabourItem("Oil Filter Swap", 29.99);
 
 	AirFilterInventory = &(CurrentCar->SwapAirFilter(*AirFilterInventory));
 	cout << "I, Jim, have swapped the air filter.\n";
 	theGarbage->Dispose(*AirFilterInventory);
 	AirFilterInventory = NULL;
-	CurrentJobSheet->AddLabourItem("Air Filter Swap", 15.00);
+	CurrentJobSheet.AddLabourItem("Air Filter Swap", 15.00);
 
 	if (CurrentCar->CheckTiresForWear())
 	{
@@ -39,22 +41,22 @@ JobSheet Technician::ServiceCar(Car* CarServicing)
 			TireInventory[i] = theStores->GetTires("Michelin", 19);
 		}
 		cout << "I, Jim, have picked up some fancy new tires\n";
-		CurrentJobSheet->AddItem(4, 4, 100.00);
+		CurrentJobSheet.AddItem(4, 4, 100.00);
 
 		for (int i = 0; i < 4; i++)
 		{
 			TireInventory[i] = CurrentCar->SwapTires(TireInventory[i], i);
-			theRecycling->Recycle(*TireInventory[i]);
+			theRecycling->Recycle(TireInventory[i]);
 			delete(TireInventory[i]); // Check if errors
 		}
-		CurrentJobSheet->AddLabourItem("Swapped Tires", 50.00);
+		CurrentJobSheet.AddLabourItem("Swapped Tires", 50.00);
 	}
 	else {
 		CurrentCar->RotateTires();
-		CurrentJobSheet->AddLabourItem("Rotated Tires", 50.00);
+		CurrentJobSheet.AddLabourItem("Rotated Tires", 50.00);
 	}
-
-	return *CurrentJobSheet;
+	double temp = CurrentJobSheet.provideCostForInvoice();
+	return &CurrentJobSheet;
 }
 
 void Technician::AddStores(Stores *aStores)
@@ -107,14 +109,11 @@ void Technician::DelCar()
 
 void Technician::AddJobSheet(JobSheet *aJobSheet)
 {
-	CurrentJobSheet = aJobSheet;
+	CurrentJobSheet = *aJobSheet;
 }
 
 void Technician::DelJobSheet()
 {
-	if (CurrentJobSheet != NULL) {
-		CurrentJobSheet = NULL;
-	}
 }
 
 void Technician::GetCar(Car* carToService)
@@ -127,7 +126,6 @@ Technician::Technician()
 	OilInventory = NULL;
 	AirFilterInventory = NULL;
 	OilFilterInventory = NULL;
-	CurrentJobSheet = NULL;
 	CurrentCar = NULL;
 	theStores = NULL;
 	theRecycling = NULL;

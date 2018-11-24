@@ -10,22 +10,22 @@ class Customer
 {
 
 private:
-    class Car* CustomerCar;
     class JobSheet* ServiceJobSheet;
     double Invoice;
     bool ServiceRecord;
 	bool isHere;
 
 public:
+	class Car* CustomerCar;
 	class Receptionist* theReceptionist;
 
     void ComeBackLater();
-
     void Leave();
+	void ComeBack();
 
     void RecieveRecords(double cost);
 
-    void Pay(double Fee);
+    void Pay();
 
 	void AddCar(Car * aCar);
 	void DelCar();

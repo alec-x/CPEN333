@@ -22,13 +22,13 @@ private:
     class Tires* TireInventory[4];
     AirFilter* AirFilterInventory;
 	class OilFilter* OilFilterInventory;
-    class JobSheet* CurrentJobSheet;
+    class JobSheet CurrentJobSheet;
 	class Stores* theStores;
 	class Recycling* theRecycling;
 	class Garbage* theGarbage;
 
 public:
-    JobSheet ServiceCar(Car* CarServicing);
+    JobSheet* ServiceCar(Car* CarServicing);
 	class Car* CurrentCar;
 
 	void AddStores(Stores * aStores);

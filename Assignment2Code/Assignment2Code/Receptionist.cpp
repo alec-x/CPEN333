@@ -74,6 +74,10 @@ Car Receptionist::GetCar()
 	return *CustomerCar;
 }
 
+void Receptionist::setServiceRecord(bool state) {
+	ServiceRecord = state;
+}
+
 Receptionist::Receptionist()
 {
 	ServiceRecord = false;
