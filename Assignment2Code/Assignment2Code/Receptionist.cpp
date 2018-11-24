@@ -28,6 +28,8 @@ void Receptionist::DelCustomer()
 
 void Receptionist::AddCar(Car *aCar)
 {
+	std::cout << "I, the Receptionist, have taken your car (and service record).\n";
+	ServiceRecord = true;
 	CustomerCar = aCar;
 }
 
@@ -52,30 +54,33 @@ void Receptionist::DelJobSheet()
 
 bool Receptionist::MakeCoffee()
 {
-    // TODO - implement Receptionist::MakeCoffee
-    throw "Not yet implemented";
+	std::cout << "I, the Receptionist, have made coffee. Huzzah!\n";
+	return true;
 }
 
 double Receptionist::GenerateInvoice()
 {
-    // TODO - implement Receptionist::GenerateInvoice
-    throw "Not yet implemented";
+	return CompletedJobSheet->provideCostForInvoice();
 }
 
-bool Receptionist::StampServiceRecord()
+void Receptionist::StampServiceRecord()
 {
-    // TODO - implement Receptionist::StampServiceRecord
-    throw "Not yet implemented";
+	std::cout << "I, the Receptionist, have stamped the service record.\n";
+	ServiceRecord = false; 
 }
 
 Car Receptionist::GetCar()
 {
-    // TODO - implement Receptionist::GetCar
-    throw "Not yet implemented";
+	return *CustomerCar;
 }
 
 Receptionist::Receptionist()
 {
+	ServiceRecord = false;
+	CustomerCar = NULL;
+	CompletedJobSheet = NULL;
+	theTechnician = NULL;
+	CustomerServicing = NULL;
 }
 
 Receptionist::~Receptionist()

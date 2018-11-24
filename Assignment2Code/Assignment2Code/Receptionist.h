@@ -5,18 +5,19 @@
 #include "JobSheet.h"
 #include "Customer.h"
 #include "Technician.h"
+#include <iostream>
 
 class Receptionist
 {
 
 private:
     class Car* CustomerCar;
-	class JobSheet* CompletedJobSheet;
     bool ServiceRecord;
 	class Technician* theTechnician;
 
 public:
 	class Customer* CustomerServicing;
+	class JobSheet* CompletedJobSheet;
 
     bool MakeCoffee();
 
@@ -34,13 +35,12 @@ public:
 
     double GenerateInvoice();
 
-    bool StampServiceRecord();
+    void StampServiceRecord();
 
     Car GetCar();
 
     Receptionist();
-
-    ~Receptionist();
+	~Receptionist();
 };
 
 #endif

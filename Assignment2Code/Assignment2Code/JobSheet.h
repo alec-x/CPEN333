@@ -1,7 +1,8 @@
 #ifndef JOBSHEET_H
 #define JOBSHEET_H
-
-#include <list>
+#include <iostream>
+#include <vector>
+#include <numeric>
 
 using namespace std;
 
@@ -9,19 +10,18 @@ class JobSheet
 {
 
 private:
-    std::list<int> PartNumList;
-    std::list<int> QuantityList;
-    std::list<double> PartCostList;
-    std::list<string> TaskList;
-    std::list<double> TaskCostList;
+    std::vector<int> PartNumList;
+    std::vector<int> QuantityList;
+    std::vector<double> PartCostList;
+    std::vector<string> TaskList;
+    std::vector<double> TaskCostList;
 
 public:
-    void AddItem(int PartNumber, int Quantity, int double_Cost);
-
-    void AddLabourItem(string Task, int double_Cost);
+    void AddItem(int PartNumber, int Quantity, double Cost);
+	void AddLabourItem(string Task, double Cost);
+	double provideCostForInvoice();
 
     JobSheet();
-
     ~JobSheet();
 };
 
