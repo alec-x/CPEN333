@@ -82,14 +82,19 @@ void Car::DelTire(int index)
 
 bool Car::CheckTiresForWear()
 {
-    // TODO - implement Car::CheckTiresForWear
-    throw "Not yet implemented";
+	return true;
 }
 
 void Car::RotateTires()
 {
-    // TODO - implement Car::RotateTires
-    throw "Not yet implemented";
+	Tires* temp;
+	temp = this->CarTires[1];
+	this->CarTires[1] = this->CarTires[2];
+	this->CarTires[2] = this->CarTires[3];
+	this->CarTires[3] = this->CarTires[4];
+	this->CarTires[4] = temp;
+	cout << "I, the Car, have accepted a tire rotation" << endl;
+	return;
 }
 
 Car::Car()
