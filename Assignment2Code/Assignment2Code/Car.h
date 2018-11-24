@@ -5,6 +5,7 @@
 #include "AirFilter.h"
 #include "Tires.h"
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -25,7 +26,7 @@ public:
 
     AirFilter SwapAirFilter(AirFilter NewAirFilter);
 
-    Tires SwapTires(Tires NewTires);
+    Tires SwapTires(Tires NewTire, int index);
 
 	void AddOil(Oil *aOil);
 	void DelOil();

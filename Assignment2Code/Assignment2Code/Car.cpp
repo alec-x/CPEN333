@@ -2,26 +2,34 @@
 
 Oil Car::SwapOil(Oil NewOil)
 {
-    // TODO - implement Car::SwapOil
-    throw "Not yet implemented";
+	Oil* temp = this->CarOil;
+    this->CarOil = &NewOil;
+	cout << "I, the Car, have accepted an Oil swap" << endl;
+	return *temp;
 }
 
 OilFilter Car::SwapOilFilter(OilFilter NewOilFilter)
 {
-    // TODO - implement Car::SwapOilFilter
-    throw "Not yet implemented";
+	OilFilter* temp = this->CarOilFilter;
+	this->CarOilFilter = &NewOilFilter;
+	cout << "I, the Car, have accepted an OilFilter swap" << endl;
+	return *temp;
 }
 
 AirFilter Car::SwapAirFilter(AirFilter NewAirFilter)
 {
-    // TODO - implement Car::SwapAirFilter
-    throw "Not yet implemented";
+	AirFilter* temp = this->CarAirFilter;
+	this->CarAirFilter = &NewAirFilter;
+	cout << "I, the Car, have accepted an AirFilter swap" << endl;
+	return *temp;
 }
 
-Tires Car::SwapTires(Tires NewTires)
+Tires Car::SwapTires(Tires NewTire, int index)
 {
-    // TODO - implement Car::SwapTires
-    throw "Not yet implemented";
+	Tires* temp = this->CarTires[index];
+	this->CarTires[index] = &NewTire;
+	cout << "I, the Car, have accepted a Tire swap for the "<< index << " tire" << endl;
+	return *temp;
 }
 
 void Car::AddOil(Oil * aOil)
