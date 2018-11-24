@@ -94,8 +94,30 @@ void Car::RotateTires()
 
 Car::Car()
 {
+	Oil *oldOil = new Oil("icky old Oil", 10);
+	OilFilter *oldOilFilter = new OilFilter();
+	AirFilter *oldAirFilter = new AirFilter();
+	Tires *oldTire1 = new Tires("Michelin", 19);
+	Tires *oldTire2 = new Tires("Michelin", 19);
+	Tires *oldTire3 = new Tires("Michelin", 19);
+	Tires *oldTire4 = new Tires("Michelin", 19);
+
+	AddOil(oldOil);
+	AddOilFilter(oldOilFilter);
+	AddAirFilter(oldAirFilter);
+	AddTire(oldTire1, 1);
+	AddTire(oldTire2, 2);
+	AddTire(oldTire3, 3);
+	AddTire(oldTire4, 4);
 }
 
 Car::~Car()
 {
+	DelOil();
+	DelOilFilter();
+	DelAirFilter();
+	DelTire(0);
+	DelTire(1);
+	DelTire(2);
+	DelTire(3);
 }
