@@ -12,15 +12,20 @@ void Customer::Leave()
 	return;
 }
 
-void Customer::RecieveRecords(double cost, )
+void Customer::RecieveRecords(double cost)
 {
-	this->AddJobSheet
+	cout << "I, the Customer, have recieved, a JobSheet, Invoice, and stamped Service Record" << endl;
+	AddJobSheet(this->theReceptionist->CompletedJobSheet);
+	this->Invoice = cost;
+	this->ServiceRecord = true;
+
+	return;
 }
 
 void Customer::Pay(double Fee)
 {
-    // TODO - implement Customer::Pay
-    throw "Not yet implemented";
+	cout << "I, the Customer, have payed $" << Fee << endl;
+	return;
 }
 
 void Customer::AddCar(Car *aCar)
@@ -47,10 +52,10 @@ void Customer::DelJobSheet()
 	}
 }
 
-Car Customer::GetCar()
+Car Customer::GetCar(Car *theCar)
 {
-    // TODO - implement Customer::GetCar
-    throw "Not yet implemented";
+	cout << "I, the Customer, has taken back my Car" << endl;
+	CustomerCar = theCar;
 }
 
 void Customer::GetServiceRecord()

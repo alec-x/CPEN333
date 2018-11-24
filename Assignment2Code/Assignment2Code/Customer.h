@@ -23,7 +23,7 @@ public:
 
     void Leave();
 
-    void RecieveRecords(double cost, );
+    void RecieveRecords(double cost);
 
     void Pay(double Fee);
 
@@ -33,7 +33,7 @@ public:
 	void AddJobSheet(JobSheet * aJobSheet);
 	void DelJobSheet();
 
-    Car GetCar();
+    Car GetCar(Car* theCar);
 
     void GetServiceRecord();
 
