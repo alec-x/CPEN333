@@ -259,3 +259,4 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/Assignment1/assignment_1_alec_xu_alex_von_schulmann.zip
