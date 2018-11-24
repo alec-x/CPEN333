@@ -16,10 +16,10 @@ class Technician
 
 private:
     int currentlyServicing;
-    Oil OilInventory;
+    Oil* OilInventory;
     Tires TireInventory[4];
-    AirFilter AirFilterInventory;
-    OilFilter OilFilterInventory;
+    AirFilter* AirFilterInventory;
+	class OilFilter* OilFilterInventory;
     class JobSheet* CurrentJobSheet;
     class Car* CurrentCar;
 	class Stores* theStores;

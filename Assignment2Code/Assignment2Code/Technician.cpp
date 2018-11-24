@@ -72,15 +72,10 @@ Car Technician::GetCar()
     throw "Not yet implemented";
 }
 
-Technician::Technician(): OilInventory("lol", 20),
-						  TireInventory()
+Technician::Technician()
 {
-    // TODO - implement Technician::Technician
-    throw "Not yet implemented";
 }
 
 Technician::~Technician()
 {
-    // TODO - implement Technician::~Technician
-    throw "Not yet implemented";
 }
