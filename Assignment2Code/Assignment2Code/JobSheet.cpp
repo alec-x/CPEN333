@@ -1,15 +1,23 @@
 #include "JobSheet.h"
 
-void JobSheet::AddItem(int PartNumber, int Quantity, int double_Cost)
+void JobSheet::AddItem(int PartNumber, int Quantity, double Cost)
 {
-    // TODO - implement JobSheet::AddItem
-    throw "Not yet implemented";
+	PartNumList.push_back(PartNumber);
+	QuantityList.push_back(Quantity);
+	PartCostList.push_back(Cost);
 }
 
-void JobSheet::AddLabourItem(string Task, int double_Cost)
+void JobSheet::AddLabourItem(string Task, double Cost)
 {
-    // TODO - implement JobSheet::AddLabourItem
-    throw "Not yet implemented";
+	TaskList.push_back(Task);
+	TaskCostList.push_back(Cost);
+}
+
+double JobSheet::provideCostForInvoice()
+{
+	double partCostSum = accumulate(PartCostList.begin(), PartCostList.end(), 0);
+	double taskCostSum = accumulate(TaskCostList.begin(), TaskCostList.end(), 0);
+	return partCostSum + taskCostSum;
 }
 
 JobSheet::JobSheet()

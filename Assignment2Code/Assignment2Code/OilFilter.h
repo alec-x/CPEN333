@@ -7,8 +7,7 @@ class OilFilter
 
 public:
     OilFilter();
-
-    ~OilFilter();
+	~OilFilter();
 };
 
 #endif
