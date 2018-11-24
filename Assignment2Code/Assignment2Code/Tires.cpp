@@ -2,24 +2,24 @@
 
 string Tires::GetMake()
 {
-    // TODO - implement Tires::GetMake
-    throw "Not yet implemented";
+	return Make;
 }
 
 int Tires::GetSize()
 {
-    // TODO - implement Tires::GetSize
-    throw "Not yet implemented";
+	return Size;
 }
 
-Tires::Tires(string Make, int Size)
+Tires::Tires(string theMake, int theSize)
 {
-    // TODO - implement Tires::Tires
-    throw "Not yet implemented";
+	Make = theMake;
+	Size = theSize;
 }
 
 Tires::Tires()
 {
+	Make = "Michelin";
+	Size = 19;
 }
 
 Tires::~Tires()

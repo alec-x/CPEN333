@@ -13,10 +13,9 @@ private:
 
 public:
     string GetMake();
+	int GetSize();
 
-    int GetSize();
-
-    Tires(string Make, int Size);
+    Tires(string theMake, int theSize);
 	Tires();
     ~Tires();
 };

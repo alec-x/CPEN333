@@ -36,7 +36,7 @@ JobSheet Technician::ServiceCar(Car* CarServicing)
 		cout << "\"Oof, those tires are BALD\" - Jim\n";
 		for (int i = 0; i < 4; i++)
 		{
-			TireInventory[i] = new Tires("Michelin", 19);
+			TireInventory[i] = theStores->GetTires("Michelin", 19);
 		}
 		cout << "I, Jim, have picked up some fancy new tires\n";
 		CurrentJobSheet->AddItem(4, 4, 100.00);
