@@ -24,7 +24,7 @@ public:
 
     OilFilter GetOilFilter();
 
-    Tires GetTires(string Make, int Size, int Quantity);
+    Tires* GetTires(string Make, int Size);
 
     Stores();
 

@@ -2,20 +2,18 @@
 
 string Oil::getType()
 {
-    // TODO - implement Oil::getType
-    throw "Not yet implemented";
+	return this->Type;
 }
 
 int Oil::getQuantity()
 {
-    // TODO - implement Oil::getQuantity
-    throw "Not yet implemented";
+	return this->Quantity;
 }
 
 Oil::Oil(string Type, int Quantity)
 {
-    // TODO - implement Oil::Oil
-    throw "Not yet implemented";
+	this->Type = Type;
+	this->Quantity = Quantity;
 }
 
 Oil::Oil()
