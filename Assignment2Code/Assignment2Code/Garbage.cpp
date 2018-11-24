@@ -14,12 +14,8 @@ void Garbage::Dispose(AirFilter OldAirFilter)
 
 Garbage::Garbage()
 {
-    // TODO - implement Garbage::Garbage
-    throw "Not yet implemented";
 }
 
 Garbage::~Garbage()
 {
-    // TODO - implement Garbage::~Garbage
-    throw "Not yet implemented";
 }

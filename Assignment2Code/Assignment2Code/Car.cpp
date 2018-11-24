@@ -86,12 +86,8 @@ void Car::RotateTires()
 
 Car::Car()
 {
-    // TODO - implement Car::Car
-    throw "Not yet implemented";
 }
 
 Car::~Car()
 {
-    // TODO - implement Car::~Car
-    throw "Not yet implemented";
 }

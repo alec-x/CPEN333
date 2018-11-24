@@ -14,12 +14,8 @@ void JobSheet::AddLabourItem(string Task, int double_Cost)
 
 JobSheet::JobSheet()
 {
-    // TODO - implement JobSheet::JobSheet
-    throw "Not yet implemented";
 }
 
 JobSheet::~JobSheet()
 {
-    // TODO - implement JobSheet::~JobSheet
-    throw "Not yet implemented";
 }

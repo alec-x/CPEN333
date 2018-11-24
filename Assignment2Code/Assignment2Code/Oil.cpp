@@ -24,6 +24,4 @@ Oil::Oil()
 
 Oil::~Oil()
 {
-    // TODO - implement Oil::~Oil
-    throw "Not yet implemented";
 }

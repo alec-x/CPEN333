@@ -62,14 +62,10 @@ bool Customer::GetServiceRecord()
 
 Customer::Customer()
 {
-    // TODO - implement Customer::Customer
-    throw "Not yet implemented";
 }
 
 Customer::~Customer()
 {
-    // TODO - implement Customer::~Customer
-    throw "Not yet implemented";
 }
 
 void Customer::AddReceptionist(Receptionist *aReceptionist)
