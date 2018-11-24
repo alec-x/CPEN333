@@ -2,23 +2,22 @@
 
 void Customer::ComeBackLater()
 {
-    // TODO - implement Customer::ComeBackLater
-    throw "Not yet implemented";
+	cout << "I, the Customer, am leaving to come back later" << endl;
+	return;
 }
 
 void Customer::Leave()
 {
-    // TODO - implement Customer::Leave
-    throw "Not yet implemented";
+	this->isHere = false;
+	return;
 }
 
-void Customer::RecieveRecords()
+void Customer::RecieveRecords(double cost, )
 {
-    // TODO - implement Customer::RecieveRecords
-    throw "Not yet implemented";
+	this->AddJobSheet
 }
 
-void Customer::Pay(int double_Fee)
+void Customer::Pay(double Fee)
 {
     // TODO - implement Customer::Pay
     throw "Not yet implemented";
@@ -54,14 +53,19 @@ Car Customer::GetCar()
     throw "Not yet implemented";
 }
 
-bool Customer::GetServiceRecord()
+void Customer::GetServiceRecord()
 {
-    // TODO - implement Customer::GetServiceRecord
-    throw "Not yet implemented";
+	this->ServiceRecord = true;
+	cout << "I, the Customer, have obtained the Service Record" << endl;
+	return;
 }
 
 Customer::Customer()
 {
+	isHere = true;
+	ServiceRecord = true;
+	Invoice = 0;
+	CustomerCar = new Car();
 }
 
 Customer::~Customer()

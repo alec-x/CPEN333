@@ -4,6 +4,7 @@
 #include "Car.h"
 #include "JobSheet.h"
 #include "Receptionist.h"
+#include <iostream>
 
 class Customer
 {
@@ -13,6 +14,7 @@ private:
     class JobSheet* ServiceJobSheet;
     double Invoice;
     bool ServiceRecord;
+	bool isHere;
 
 public:
 	class Receptionist* theReceptionist;
@@ -21,9 +23,9 @@ public:
 
     void Leave();
 
-    void RecieveRecords();
+    void RecieveRecords(double cost, );
 
-    void Pay(int double_Fee);
+    void Pay(double Fee);
 
 	void AddCar(Car * aCar);
 	void DelCar();
@@ -33,7 +35,7 @@ public:
 
     Car GetCar();
 
-    bool GetServiceRecord();
+    void GetServiceRecord();
 
     Customer();
 
