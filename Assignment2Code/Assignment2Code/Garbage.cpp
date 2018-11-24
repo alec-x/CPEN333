@@ -2,14 +2,14 @@
 
 void Garbage::Dispose(OilFilter OldOilFilter)
 {
-    // TODO - implement Garbage::Dispose
-    throw "Not yet implemented";
+	cout << "I, the Garbage, have consumed the Old Oil Filter" << endl;
+	return;
 }
 
 void Garbage::Dispose(AirFilter OldAirFilter)
 {
-    // TODO - implement Garbage::Dispose
-    throw "Not yet implemented";
+	cout << "I, the Garbage, have consumed the Old Air Filter" << endl;
+    return;
 }
 
 Garbage::Garbage()

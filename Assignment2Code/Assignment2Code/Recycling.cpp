@@ -2,14 +2,14 @@
 
 void Recycling::Recycle(Oil OldOil)
 {
-    // TODO - implement Recycling::Recycle
-    throw "Not yet implemented";
+	cout << "I, the Recycling, am holding the Old Oil for recycling" << endl;
+	return;
 }
 
 void Recycling::Recycle(Tires OldTires)
 {
-    // TODO - implement Recycling::Recycle
-    throw "Not yet implemented";
+	cout << "I, the Recycling, am holding the Old Tires for recycling" << endl;
+	return;
 }
 
 Recycling::Recycling()

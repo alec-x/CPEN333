@@ -3,6 +3,9 @@
 
 #include "OilFilter.h"
 #include "AirFilter.h"
+#include <iostream>
+
+using namespace std; 
 
 class Garbage
 {

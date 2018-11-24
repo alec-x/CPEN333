@@ -3,6 +3,9 @@
 
 #include "Oil.h"
 #include "Tires.h"
+#include <iostream>
+
+using namespace std;
 
 class Recycling
 {
