@@ -76,12 +76,8 @@ Car Receptionist::GetCar()
 
 Receptionist::Receptionist()
 {
-    // TODO - implement Receptionist::Receptionist
-    throw "Not yet implemented";
 }
 
 Receptionist::~Receptionist()
 {
-    // TODO - implement Receptionist::~Receptionist
-    throw "Not yet implemented";
 }

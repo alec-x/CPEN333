@@ -26,12 +26,8 @@ Tires Stores::GetTires(string Make, int Size, int Quantity)
 
 Stores::Stores()
 {
-    // TODO - implement Stores::Stores
-    throw "Not yet implemented";
 }
 
 Stores::~Stores()
 {
-    // TODO - implement Stores::~Stores
-    throw "Not yet implemented";
 }

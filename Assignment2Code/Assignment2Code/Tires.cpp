@@ -20,11 +20,8 @@ Tires::Tires(string Make, int Size)
 
 Tires::Tires()
 {
-	throw "Not yet implemented";
 }
 
 Tires::~Tires()
 {
-    // TODO - implement Tires::~Tires
-    throw "Not yet implemented";
 }

@@ -14,12 +14,8 @@ void Recycling::Recycle(Tires OldTires)
 
 Recycling::Recycling()
 {
-    // TODO - implement Recycling::Recycling
-    throw "Not yet implemented";
 }
 
 Recycling::~Recycling()
 {
-    // TODO - implement Recycling::~Recycling
-    throw "Not yet implemented";
 }
