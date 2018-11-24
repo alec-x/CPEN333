@@ -26,7 +26,7 @@ public:
 
     AirFilter SwapAirFilter(AirFilter NewAirFilter);
 
-    Tires SwapTires(Tires *NewTire, int index);
+    Tires* SwapTires(Tires *NewTire, int index);
 
 	void AddOil(Oil *aOil);
 	void DelOil();

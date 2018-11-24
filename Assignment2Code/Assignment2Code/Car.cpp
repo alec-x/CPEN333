@@ -24,12 +24,12 @@ AirFilter Car::SwapAirFilter(AirFilter NewAirFilter)
 	return *temp;
 }
 
-Tires Car::SwapTires(Tires *NewTire, int index)
+Tires* Car::SwapTires(Tires *NewTire, int index)
 {
 	Tires* temp = this->CarTires[index];
 	this->CarTires[index] = NewTire;
 	cout << "I, the Car, have accepted a Tire swap for the "<< index << " tire" << endl;
-	return *temp;
+	return temp;
 }
 
 void Car::AddOil(Oil * aOil)
