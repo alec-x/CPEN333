@@ -10,24 +10,26 @@
 #include "Stores.h"
 #include "Recycling.h"
 #include "Garbage.h"
+#include <iostream>
+
+using namespace std;
 
 class Technician
 {
 
 private:
-    int currentlyServicing;
     Oil* OilInventory;
-    Tires TireInventory[4];
+    class Tires* TireInventory[4];
     AirFilter* AirFilterInventory;
 	class OilFilter* OilFilterInventory;
     class JobSheet* CurrentJobSheet;
-    class Car* CurrentCar;
 	class Stores* theStores;
 	class Recycling* theRecycling;
 	class Garbage* theGarbage;
 
 public:
-    JobSheet ServiceCar(Car CarServicing);
+    JobSheet ServiceCar(Car* CarServicing);
+	class Car* CurrentCar;
 
 	void AddStores(Stores * aStores);
 	void DelStores();
@@ -44,7 +46,7 @@ public:
 	void AddJobSheet(JobSheet * aJobSheet);
 	void DelJobSheet();
 
-    Car GetCar();
+    void GetCar(Car* carToService);
 
     Technician();
 
