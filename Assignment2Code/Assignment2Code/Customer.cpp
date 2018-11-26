@@ -1,5 +1,8 @@
 #include "Customer.h"
 
+// Alex Von Schulmann 13975140
+// Alec Xu 38108130
+
 void Customer::ComeBackLater()
 {
 	cout << "I, the Customer, am leaving to come back later" << endl;

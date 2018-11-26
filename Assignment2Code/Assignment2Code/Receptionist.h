@@ -7,6 +7,9 @@
 #include "Technician.h"
 #include <iostream>
 
+// Alex Von Schulmann 13975140
+// Alec Xu 38108130
+
 class Receptionist
 {
 

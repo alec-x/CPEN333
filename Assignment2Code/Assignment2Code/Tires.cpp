@@ -1,5 +1,8 @@
 #include "Tires.h"
 
+// Alex Von Schulmann 13975140
+// Alec Xu 38108130
+
 string Tires::GetMake()
 {
 	return Make;

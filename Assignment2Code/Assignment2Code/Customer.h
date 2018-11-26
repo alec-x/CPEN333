@@ -6,6 +6,9 @@
 #include "Receptionist.h"
 #include <iostream>
 
+// Alex Von Schulmann 13975140
+// Alec Xu 38108130
+
 class Customer
 {
 

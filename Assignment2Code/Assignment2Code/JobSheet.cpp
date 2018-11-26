@@ -1,5 +1,8 @@
 #include "JobSheet.h"
 
+// Alex Von Schulmann 13975140
+// Alec Xu 38108130
+
 void JobSheet::AddItem(int PartNumber, int Quantity, double Cost)
 {
 	PartNumList.push_back(PartNumber);
