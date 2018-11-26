@@ -5,8 +5,14 @@
 
 void Customer::ComeBackLater()
 {
-	cout << "I, the Customer, am leaving to come back later" << endl;
+	cout << "I, the Customer, am leaving to come back later." << endl;
+	ServiceRecord = false;
 	return;
+}
+
+void Customer::ComeBack() {
+	cout << "I, the Customer, have returned!\n";
+	isHere = true;
 }
 
 void Customer::Leave()
@@ -21,13 +27,15 @@ void Customer::RecieveRecords(double cost)
 	AddJobSheet(this->theReceptionist->CompletedJobSheet);
 	this->Invoice = cost;
 	this->ServiceRecord = true;
+	theReceptionist->DelJobSheet();
+	theReceptionist->setServiceRecord(false);
 
 	return;
 }
 
-void Customer::Pay(double Fee)
+void Customer::Pay()
 {
-	cout << "I, the Customer, have payed $" << Fee << endl;
+	cout << "I, the Customer, have payed $" << Invoice << endl;
 	return;
 }
 

@@ -14,13 +14,15 @@ class Receptionist
 {
 
 private:
-    class Car* CustomerCar;
     bool ServiceRecord;
 	class Technician* theTechnician;
 
 public:
 	class Customer* CustomerServicing;
 	class JobSheet* CompletedJobSheet;
+	class Car* CustomerCar;
+	
+	void setServiceRecord(bool state);
 
     bool MakeCoffee();
 
